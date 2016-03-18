@@ -175,8 +175,9 @@ def run_parser(g, input_string):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-s', '--string', help="string to test")
-    parser.add_argument('-i', '--infile', type=argparse.FileType('r'), help="file of strings to be tested")
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument('-s', '--string', help="string to test")
+    group.add_argument('-i', '--infile', type=argparse.FileType('r'), help="file of strings to be tested")
     parser.add_argument('-g', '--grammar-file', default='grammar.txt', type=argparse.FileType('r'), help="grammar file of rule to use")
     args = parser.parse_args()
 
