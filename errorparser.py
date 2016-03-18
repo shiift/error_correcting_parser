@@ -185,7 +185,6 @@ def main():
     for line in args.grammar_file:
         g.add_production(line)
     if args.string:
-        print args.string
         run_parser(g, args.string)
     if args.infile:
         for line in args.infile:
