@@ -53,7 +53,7 @@ class Matrix:
     def __init__(self, size):
         self.data = [None] * (size + 1)
         for i in range(1, size + 1):
-            self.data[i] = [[]] * (size + 2)
+            self.data[i] = [[] for _dummy in xrange(size + 2)]
     def __repr__(self):
         return str(self.data)
 
@@ -84,9 +84,9 @@ def error_correcting_parser(g, input_string):
                             l = l1 + l2 + l3
                             M.data[i][i+s].append((A,l))
                             X.data[A][i].append((i,i+s,l))
-    #for (j, k, l) in X.get_all('S'):
-    #    if (j == 1) and (k == n + 1):
-    #        print l
+    for (j, k, l) in X.get_all('S'):
+       # if (j == 1) and (k == n + 1):
+       print l
 
 def main(argv):
     try:
