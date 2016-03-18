@@ -40,12 +40,12 @@ class Lookup:
             lhs = production.lhs
             self.data[lhs] = {}
             for i in range(1, size + 1):
-                self.data[lhs][i] = None
+                self.data[lhs][i] = {}
     def get_all(self, lhs):
         newlist = []
         for i in range(1, self.size + 1):
-            data = self.data[lhs][i]
-            if data != None:
+            values = self.data[lhs][i].values()
+            for data in values:
                 newlist.append(data)
         return newlist
     def __repr__(self):
@@ -73,7 +73,7 @@ def error_correcting_parser(g, input_string):
                 A = production.lhs
                 l = production.errors
                 M.data[i][i+1].append((A, l))
-                X.data[A][i] = (i, i+1, l)
+                X.data[A][i][i+1] = (i, i+1, l)
     for s in range(2, n + 1):
         for production in g.nonterminals:
             A = production.lhs
@@ -85,7 +85,11 @@ def error_correcting_parser(g, input_string):
                         if (Cp == C):
                             l = l1 + l2 + l3
                             M.data[i][i+s].append((A,l))
-                            X.data[A][i] = (i,i+s,l)
+                            x_data = X.data[A][i]
+                            if not ((i+s) in x_data):
+                                X.data[A][i][i+s] = (i,i+s,l)
+                            elif x_data[i+s][2] > l:
+                                X.data[A][i][i+s] = (i,i+s,l)
     for (j, k, l) in X.get_all('S'):
         if (j == 1) and (k == n + 1):
             print l
