@@ -1,0 +1,32 @@
+S  ->0 A A1
+S  ->0 A B
+A1 ->0 S B
+H  ->0 H I
+A  ->0 H A
+A  ->0 A H
+B  ->0 H B
+B  ->0 B H
+S  ->1 H B
+S  ->1 B H
+A  ->1 H I
+B  ->1 H I
+S  ->2 H I
+A1 ->3 H I
+A1 ->2 B H
+A1 ->2 H B
+S  ->1 A H
+S  ->1 H A
+A1 ->2 A H
+A1 ->2 H A
+A  ->0 a
+B  ->0 b
+I  ->1 a
+I  ->1 b
+A  ->1 b
+B  ->1 a
+S  ->1 a
+S  ->1 b
+H  ->1 a
+H  ->1 b
+A1 ->2 a
+A1 ->2 b

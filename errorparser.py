@@ -1,5 +1,8 @@
 import sys
 import re
+import argparse
+
+class BreakIt(Exception): pass
 
 class Production:
     regex = r'->[0-9]+'
@@ -82,10 +85,8 @@ class Node:
         self.i = i
         self.j = j
         self.p = p
-    def left(self, left):
-        self.left = left
-    def right(self, right):
-        self.right = right
+        self.left = None
+        self.right = None
 
 """Takes a grammar and an input string and returns a tuple of the closest string
 in the grammar for that input string and the distance of the input string to the
@@ -108,9 +109,9 @@ def error_correcting_parser(g, input_string):
             A = production.lhs
             l3 = production.errors
             B,C = production.rhs.split()
-            for (i, k, l1) in X.get_all(B):
+            for i, k, l1 in X.get_all(B):
                 if (k <= n) and (i + s <= n + 1):
-                    for (Cp, l2) in M.get(k, i+s):
+                    for Cp, l2 in M.get(k, i+s):
                         if (Cp == C):
                             l = l1 + l2 + l3
                             M.insert(i, i+s, (A,l))
@@ -119,8 +120,8 @@ def error_correcting_parser(g, input_string):
     for (j, k, l) in X.get('S', 1):
         if (k == n + 1) and (not best or l < best):
             best = l
-    print best
-    return parse_tree(M, 'S', 1, n, best, input_string, g.nonterminals)
+    tree = parse_tree(M, 'S', 1, n+1, best, input_string, g.nonterminals)
+    return (best, tree)
 
 def parse_tree(M, D, i, j, l, a, NT):
     if i == j - 1:
@@ -130,102 +131,63 @@ def parse_tree(M, D, i, j, l, a, NT):
         raise ValueError('Could not find Matching ' + str(D) +\
             ' in M at (' + str(i) + ',' + str(j) + ')')
     A, B, q1, q2, dab, k = [None] * 6
-    for k in range(i+1, j):
-        for A, q1 in M.get(i, k):
-            for B, q2 in M.get(k, j):
-                for dab in NT:
-                    if dab.lhs == D and\
-                        dab.rhs.split()[0] == A and\
-                        dab.rhs.split()[1] == B and\
-                        dab.errors + q1 + q2 == l:
-                        break;
+    try:
+        for k in range(i+1, j):
+            for A, q1 in M.get(i, k):
+                for B, q2 in M.get(k, j):
+                    for dab in NT:
+                        if dab.lhs == D and\
+                            dab.rhs.split()[0] == A and\
+                            dab.rhs.split()[1] == B and\
+                            dab.errors + q1 + q2 == l:
+                            raise BreakIt
+        raise ValueError('Could not match in Deep Loop in parse_tree')
+    except BreakIt: pass
     T1 = parse_tree(M, A, i, k, q1, a, NT)
     T2 = parse_tree(M, B, k, j, q2, a, NT)
     r = Node(i, j, dab)
-    r.left(T1)
-    r.right(T2)
+    r.left = T1
+    r.right = T2
     return r
 
-def main(argv):
-    global strings
-    DEBUG = 0
-    try:
-        if (len(argv) == 0):
-            grammar_file = open('grammar.txt')
-            DEBUG = 1
-        elif (len(argv) == 1):
-            grammar_file = open('grammar.txt')
-            input_string = argv[0]
-        elif (len(argv) == 2):
-            input_string = argv[0]
-            grammar_file = open(argv[1])
-    except:
-        print "Must use format: python errorparser.py <input_string>\
-        <grammar_file>"
+def flatten_tree(t, g, s):
+    if t == None:
+        return ""
+    if t.left == None and t.right == None:
+        return find_correction(t.p, g)
+    c = flatten_tree(t.left, g, s)
+    s += c + flatten_tree(t.right, g, s)
+    return s
+
+def find_correction(p, ts):
+    if p.errors == 0:
+        return p.rhs
+    for t in ts:
+        if t.lhs == p.lhs and t.errors == 0:
+            return t.rhs
+    raise ValueError('Could not find an in-language symbol to character map')
+
+def run_parser(g, input_string):
+    e, tree = error_correcting_parser(g, input_string)
+    print "I :" + input_string
+    print "I':" + flatten_tree(tree, g.terminals, "")
+    print "E :" + str(e)
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-s', '--string', help="string to test")
+    parser.add_argument('-i', '--infile', type=argparse.FileType('r'), help="file of strings to be tested")
+    parser.add_argument('-g', '--grammar-file', default='grammar.txt', type=argparse.FileType('r'), help="grammar file of rule to use")
+    args = parser.parse_args()
 
     g = Grammar()
-    for line in grammar_file:
+    for line in args.grammar_file:
         g.add_production(line)
+    if args.string:
+        print args.string
+        run_parser(g, args.string)
+    if args.infile:
+        for line in args.infile:
+            run_parser(g, line.strip())
 
-    if DEBUG:
-        for string in strings:
-            print error_correcting_parser(g, string)
-    else:
-        print error_correcting_parser(g, input_string)
-
-
-strings = ["tactagcaatacgcttgcgttcggtggttaagtatgtataatgcgcgggcttgtcgt",
-"tgctatcctgacagttgtcacgctgattggtgtcgttacaatctaacgcatcgccaa",
-"gtactagagaactagtgcattagcttatttttttgttatcatgctaaccacccggcg",
-"aattgtgatgtgtatcgaagtgtgttgcggagtagatgttagaatactaacaaactc",
-"tcgataattaactattgacgaaaagctgaaaaccactagaatgcgcctccgtggtag",
-"aggggcaaggaggatggaaagaggttgccgtataaagaaactagagtccgtttaggt",
-"cagggggtggaggatttaagccatctcctgatgacgcatagtcagcccatcatgaat",
-"tttctacaaaacacttgatactgtatgagcatacagtataattgcttcaacagaaca",
-"cgacttaatatactgcgacaggacgtccgttctgtgtaaatcgcaatgaaatggttt",
-"ttttaaatttcctcttgtcaggccggaataactccctataatgcgccaccactgaca",
-"gcaaaaataaatgcttgactctgtagcgggaaggcgtattatgcacaccccgcgccg",
-"cctgaaattcagggttgactctgaaagaggaaagcgtaatatacgccacctcgcgac",
-"gatcaaaaaaatacttgtgcaaaaaattgggatccctataatgcgcctccgttgaga",
-"ctgcaatttttctattgcggcctgcggagaactccctataatgcgcctccatcgaca",
-"tttatatttttcgcttgtcaggccggaataactccctataatgcgccaccactgaca",
-"aagcaaagaaatgcttgactctgtagcgggaaggcgtattatgcacaccgccgcgcc",
-"atgcatttttccgcttgtcttcctgagccgactccctataatgcgcctccatcgaca",
-"aaacaatttcagaatagacaaaaactctgagtgtaataatgtagcctcgtgtcttgc",
-"tctcaacgtaacactttacagcggcgcgtcatttgatatgatgcgccccgcttcccg",
-"gcaaataatcaatgtggacttttctgccgtgattatagacacttttgttacgcgttt",
-"gacaccatcgaatggcgcaaaacctttcgcggtatggcatgatagcgcccggaagag",
-"aaaaacgtcatcgcttgcattagaaaggtttctggccgaccttataaccattaatta",
-"tctgaaatgagctgttgacaattaatcatcgaactagttaactagtacgcaagttca",
-"accggaagaaaaccgtgacattttaacacgtttgttacaaggtaaaggcgacgccgc",
-"aaattaaaattttattgacttaggtcactaaatactttaaccaatataggcatagcg",
-"catcctcgcaccagtcgacgacggtttacgctttacgtatagtggcgacaatttttt",
-"ttgtcataatcgacttgtaaaccaaattgaaaagatttaggtttacaagtctacacc",
-"tccagtataatttgttggcataattaagtacgacgagtaaaattacatacctgcccg",
-"acagttatccactattcctgtggataaccatgtgtattagagttagaaaacacgagg",
-"tgtgcagtttatggttccaaaatcgccttttgctgtatatactcacagcataactgt",
-"ctgttgttcagtttttgagttgtgtataacccctcattctgatcccagcttatacgg",
-"attacaaaaagtgctttctgaactgaacaaaaaagagtaaagttagtcgcgtagggt",
-"atgcgcaacgcggggtgacaagggcgcgcaaaccctctatactgcgcgccgaagctg",
-"taaaaaactaacagttgtcagcctgtcccgcttataagatcatacgccgttatacgt",
-"atgcaattttttagttgcatgaactcgcatgtctccatagaatgcgcgctacttgat",
-"ccttgaaaaagaggttgacgctgcaaggctctatacgcataatgcgccccgcaacgc",
-"tcgttgtatatttcttgacaccttttcggcatcgccctaaaattcggcgtcctcata",
-"ccgtttattttttctacccatatccttgaagcggtgttataatgccgcgccctcgat",
-"tgtaaactaatgcctttacgtgggcggtgattttgtctacaatcttacccccacgta",
-"gatcgcacgatctgtatacttatttgagtaaattaacccacgatcccagccattctt",
-"aacgcatacggtattttaccttcccagtcaagaaaacttatcttattcccacttttc",
-"ttagcggatcctacctgacgctttttatcgcaactctctactgtttctccatacccg",
-"gccttctccaaaacgtgttttttgttgttaattcggtgtagacttgtaaacctaaat",
-"cagaaacgttttattcgaacatcgatctcgtcttgtgttagaattctaacatacggt",
-"cactaatttattccatgtcacacttttcgcatctttgttatgctatggttatttcat",
-"atataaaaaagttcttgctttctaacgtgaaagtggtttaggttaaaagacatcagt",
-"caaggtagaatgctttgccttgtcggcctgattaatggcacgatagtcgcatcggat",
-"ggccaaaaaatatcttgtactatttacaaaacctatggtaactctttaggcattcct",
-"taggcaccccaggctttacactttatgcttccggctcgtatgttgtgtggaattgtg",
-"ccatcaaaaaaatattctcaacataaaaaactttgtgtaatacttgtaacgctacat",
-"tggggacgtcgttactgatccgcacgtttatgatatgctatcgtactctttagcgag",
-"tcagaaatattatggtgatgaactgtttttttatccagtataatttgttggcataat"]
-
-if __name__ == '__main__':
-    main(sys.argv[1:])
+main()
