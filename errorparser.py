@@ -95,9 +95,10 @@ class Node:
     def print_node(self, node, i, s):
         if node == None:
             return ""
+        sp = ""
         for j in range(i):
-            s += " "
-        sn = s + str(node.p) + "\n"
+            sp += " "
+        sn = sp + str(node.p) + "\n"
         sl = self.print_node(node.left, i+1, s)
         sr = self.print_node(node.right, i+1, s)
         return sn + sl + sr
@@ -191,7 +192,9 @@ def find_correction(p, ts):
     for t in ts:
         if t.lhs == p.lhs and t.errors == 0:
             return t.rhs
-    raise ValueError('Could not find an in-language symbol to map: ' + str(p))
+    raise ValueError('Could not find an in-language symbol to map: ' + str(p) +
+            '\nIs the grammar have a mapping from the lhs to a character with 0
+            errors?')
 
 """Takes a grammar and an input string and runs the parser. This function prints
 out the Input string, the closest string in the grammar (I') and the number of
