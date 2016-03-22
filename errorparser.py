@@ -59,7 +59,12 @@ class Lookup:
             for i in range(0, size):
                 self.data[lhs].append([])
     def insert(self, lhs, tup):
-        self.get(lhs, tup[0]).append(tup)
+        repl = True
+        for t in self.get_all(lhs):
+            if t[1] == tup[1] and t[2] <= tup[2]:
+                repl = False
+        if repl:
+            self.get(lhs, tup[0]).append(tup)
     def get(self, lhs, i):
         return self.data[lhs][i-1]
     def get_all(self, lhs):
@@ -193,7 +198,7 @@ def find_correction(p, ts):
         if t.lhs == p.lhs and t.errors == 0:
             return t.rhs
     raise ValueError('Could not find an in-language symbol to map: ' + str(p) +
-            '\nIs the grammar have a mapping from the lhs to a character with 0
+            '\nIs the grammar have a mapping from the lhs to a character with 0\
             errors?')
 
 """Takes a grammar and an input string and runs the parser. This function prints
