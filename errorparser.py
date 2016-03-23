@@ -59,12 +59,15 @@ class Lookup:
             for i in range(0, size):
                 self.data[lhs].append([])
     def insert(self, lhs, tup):
-        repl = True
-        for t in self.get_all(lhs):
-            if t[1] == tup[1] and t[2] <= tup[2]:
-                repl = False
-        if repl:
-            self.get(lhs, tup[0]).append(tup)
+        tups = self.get(lhs, tup[0])
+        for i in range(len(tups)):
+            if tups[i][1] == tup[1]:
+                if tups[i][2] > tup[2]:
+                    tups.pop(i)
+                    break
+                else:
+                    return
+        self.get(lhs, tup[0]).append(tup)
     def get(self, lhs, i):
         return self.data[lhs][i-1]
     def get_all(self, lhs):
@@ -81,6 +84,14 @@ class Matrix:
         for i in range(0, size):
             self.data[i] = [[] for _dummy in xrange(size-i)]
     def insert(self, i, j, tup):
+        tups = self.get(i, j)
+        for k in range(len(tups)):
+            if tups[k][0] == tup[0]:
+                if tups[k][1] > tup[1]:
+                    tups.pop(k)
+                    break
+                else:
+                    return
         self.get(i,j).append(tup)
     def get(self, i, j):
         return self.data[i-1][j-i-1]
@@ -214,8 +225,10 @@ def main():
     parser = argparse.ArgumentParser()
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('-s', '--string', help="string to test")
-    group.add_argument('-i', '--infile', type=argparse.FileType('r'), help="file of strings to be tested")
-    parser.add_argument('-g', '--grammar-file', default='grammar.txt', type=argparse.FileType('r'), help="grammar file of rule to use")
+    group.add_argument('-i', '--infile',
+        type=argparse.FileType('r'), help="file of strings to be tested")
+    parser.add_argument('-g', '--grammar-file', default='grammar.txt',
+        type=argparse.FileType('r'), help="grammar file of rule to use")
     args = parser.parse_args()
 
     g = Grammar()
