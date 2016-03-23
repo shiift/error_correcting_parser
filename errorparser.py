@@ -108,18 +108,20 @@ class Node:
         self.p = p
         self.left = None
         self.right = None
-    def print_node(self, node, i, s):
-        if node == None:
-            return ""
+    def print_node(self, i, s):
         sp = ""
         for j in range(i):
             sp += " "
-        sn = sp + str(node.p) + "\n"
-        sl = self.print_node(node.left, i+1, s)
-        sr = self.print_node(node.right, i+1, s)
+        sn = sp + str(self.p) + "\n"
+        sl = ""
+        sr = ""
+        if self.left != None:
+            sl = self.left.print_node(i+1, s)
+        if self.right != None:
+            sr = self.right.print_node(i+1, s)
         return sn + sl + sr
     def __repr__(self):
-        return self.print_node(self, 0, "")
+        return self.print_node(0, "")
 
 """Takes a grammar and an input string and returns a tuple of the closest string
 in the grammar for that input string and the distance of the input string to the
@@ -186,6 +188,7 @@ def parse_tree(M, D, i, j, l, a, NT):
     r.left = T1
     r.right = T2
     return r
+
 """This takes a parse tree, a list of terminals and an empty string, and returns
 a string for the closest string in the list of terminals for the tree.
 """
@@ -217,9 +220,9 @@ out the Input string, the closest string in the grammar (I') and the number of
 errors between them"""
 def run_parser(g, input_string):
     e, tree = error_correcting_parser(g, input_string)
-    print "I :" + input_string
-    print "I':" + flatten_tree(tree, g.terminals, "")
-    print "E :" + str(e)
+    print "I : " + input_string
+    print "I': " + flatten_tree(tree, g.terminals, "")
+    print "E : " + str(e)
 
 def main():
     parser = argparse.ArgumentParser()
