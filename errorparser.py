@@ -80,6 +80,7 @@ class Lookup:
 
 class Matrix:
     def __init__(self, size):
+        self.size = size
         self.data = [None] * size
         for i in range(0, size):
             self.data[i] = [[] for _dummy in xrange(size-i)]
@@ -94,11 +95,16 @@ class Matrix:
                     return
         self.get(i,j).append(tup)
     def get(self, i, j):
+        if i >= j:
+            raise ValueError("Cannot get {} >= {}".format(i, j))
         return self.data[i-1][j-i-1]
     def __repr__(self):
         s = ""
-        for i in self.data:
-            s += str(i) + ",\n"
+        size = self.size
+        for j in range(2, size+2):
+            for i in range(1, j):
+                s += str(self.get(i, j)) + "; "
+            s += "\n"
         return s
 
 class Node:
@@ -145,7 +151,7 @@ def error_correcting_parser(g, input_string):
             l3 = production.errors
             B,C = production.rhs.split()
             for i, k, l1 in X.get_all(B):
-                if (k <= n) and (i + s <= n + 1):
+                if (k < i + s) and (i + s <= n + 1):
                     for Cp, l2 in M.get(k, i+s):
                         if (Cp == C):
                             l = l1 + l2 + l3
@@ -155,6 +161,7 @@ def error_correcting_parser(g, input_string):
     for (j, k, l) in X.get(g.S, 1):
         if (k == n + 1) and (not best or l < best):
             best = l
+    tree = None
     tree = parse_tree(M, g.S, 1, n+1, best, input_string, g.nonterminals)
     return (best, tree)
 
@@ -167,8 +174,7 @@ def parse_tree(M, D, i, j, l, a, NT):
         for (Dc, lc) in M.get(i, j):
             if Dc == D and lc == l:
                 return Node(i, j, Production(D, l, a[i]))
-        raise ValueError('Could not find Matching ' + str(D) +\
-            ' in M at (' + str(i) + ',' + str(j) + ')')
+        raise ValueError('Could not find Matching {} in M at {}'.format(D, (i,j)))
     A, B, q1, q2, dab, k = [None] * 6
     try:
         for k in range(i+1, j):
@@ -212,16 +218,17 @@ def find_correction(p, ts):
         if t.lhs == p.lhs and t.errors == 0:
             return t.rhs
     raise ValueError('Could not find an in-language symbol to map: ' + str(p) +
-            '\nIs the grammar have a mapping from the lhs to a character with 0\
-            errors?')
+            '\nIs the grammar have a mapping from the lhs to a character with 0' +
+            'errors?')
 
 """Takes a grammar and an input string and runs the parser. This function prints
 out the Input string, the closest string in the grammar (I') and the number of
 errors between them"""
 def run_parser(g, input_string):
     e, tree = error_correcting_parser(g, input_string)
+    print tree
     print "I : " + input_string
-    print "I': " + flatten_tree(tree, g.terminals, "")
+    # print "I': " + flatten_tree(tree, g.terminals, "")
     print "E : " + str(e)
 
 def main():
