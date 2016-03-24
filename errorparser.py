@@ -217,6 +217,7 @@ def find_correction(p, ts):
     for t in ts:
         if t.lhs == p.lhs and t.errors == 0:
             return t.rhs
+    return "-"
     raise ValueError('Could not find an in-language symbol to map: ' + str(p) +
             '\nIs the grammar have a mapping from the lhs to a character with 0' +
             'errors?')
@@ -226,9 +227,11 @@ out the Input string, the closest string in the grammar (I') and the number of
 errors between them"""
 def run_parser(g, input_string):
     e, tree = error_correcting_parser(g, input_string)
+    flatten_string = flatten_tree(tree, g.terminals, "")
     print tree
     print "I : " + input_string
-    # print "I': " + flatten_tree(tree, g.terminals, "")
+    print "I': " + flatten_string
+    print "I\": " + flatten_string.replace('-','')
     print "E : " + str(e)
 
 def main():
