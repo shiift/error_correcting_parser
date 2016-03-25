@@ -1,133 +1,5 @@
-import sys
-import re
 import argparse
-
-class BreakIt(Exception): pass
-
-"""Production conatins a left hand side, right hand side and number of errors
-for the production."""
-class Production:
-    regex = r'->[0-9]+'
-    def __init__(self, arg0, arg1=None, arg2=None):
-        if arg1 == None:
-            self.set_str(arg0)
-        else:
-            self.set_vars(arg0, arg1, arg2)
-    def set_str(self, string):
-        m = re.search(self.regex, string)
-        if(m):
-            self.errors = int(re.sub(r'->', '', m.group(0)))
-        else:
-            raise ValueError("Productions must be in the form: S ->0 A B")
-        lhs_rhs = re.split(self.regex, string)
-        self.lhs = lhs_rhs[0].strip()
-        self.rhs = lhs_rhs[1].strip()
-    def set_vars(self, lhs, errors, rhs):
-        self.lhs = lhs
-        self.errors = errors
-        self.rhs = rhs
-        return self
-    def __repr__(self):
-        return self.lhs + " ->" + str(self.errors) + " " + self.rhs
-
-"""Grammar conatins a list of productions, a list of terminals, a list of
-non-terminals, and the top level symbol character ('S' by default)"""
-class Grammar:
-    S = 'S'
-    productions = []
-    terminals = []
-    nonterminals = []
-    def add_production(self, string):
-        p = Production(string)
-        self.productions.append(p)
-        if len(p.rhs.split()) == 1:
-            self.terminals.append(p)
-        else:
-            self.nonterminals.append(p)
-    def __repr__(self):
-        string = ""
-        for prod in self.productions:
-            string += str(prod) + "\n"
-        return string
-
-class Lookup:
-    data = {}
-    def __init__(self, productions, size):
-        for production in productions:
-            lhs = production.lhs
-            self.data[lhs] = []
-            for i in range(0, size):
-                self.data[lhs].append([])
-    def insert(self, lhs, tup):
-        tups = self.get(lhs, tup[0])
-        for i in range(len(tups)):
-            if tups[i][1] == tup[1]:
-                if tups[i][2] > tup[2]:
-                    tups.pop(i)
-                    break
-                else:
-                    return
-        self.get(lhs, tup[0]).append(tup)
-    def get(self, lhs, i):
-        return self.data[lhs][i-1]
-    def get_all(self, lhs):
-        newlist = []
-        for l in self.data[lhs]:
-            newlist.extend(l)
-        return newlist
-    def __repr__(self):
-        return str(self.data.keys());
-
-class Matrix:
-    def __init__(self, size):
-        self.size = size
-        self.data = [None] * size
-        for i in range(0, size):
-            self.data[i] = [[] for _dummy in xrange(size-i)]
-    def insert(self, i, j, tup):
-        tups = self.get(i, j)
-        for k in range(len(tups)):
-            if tups[k][0] == tup[0]:
-                if tups[k][1] > tup[1]:
-                    tups.pop(k)
-                    break
-                else:
-                    return
-        self.get(i,j).append(tup)
-    def get(self, i, j):
-        if i >= j:
-            raise ValueError("Cannot get {} >= {}".format(i, j))
-        return self.data[i-1][j-i-1]
-    def __repr__(self):
-        s = ""
-        size = self.size
-        for j in range(2, size+2):
-            for i in range(1, j):
-                s += str(self.get(i, j)) + "; "
-            s += "\n"
-        return s
-
-class Node:
-    def __init__(self, i, j, p):
-        self.i = i
-        self.j = j
-        self.p = p
-        self.left = None
-        self.right = None
-    def print_node(self, i, s):
-        sp = ""
-        for j in range(i):
-            sp += " "
-        sn = sp + str(self.p) + "\n"
-        sl = ""
-        sr = ""
-        if self.left != None:
-            sl = self.left.print_node(i+1, s)
-        if self.right != None:
-            sr = self.right.print_node(i+1, s)
-        return sn + sl + sr
-    def __repr__(self):
-        return self.print_node(0, "")
+from classes import *
 
 """Takes a grammar and an input string and returns a tuple of the closest string
 in the grammar for that input string and the distance of the input string to the
@@ -161,7 +33,6 @@ def error_correcting_parser(g, input_string):
     for (j, k, l) in X.get(g.S, 1):
         if (k == n + 1) and (not best or l < best):
             best = l
-    tree = None
     tree = parse_tree(M, g.S, 1, n+1, best, input_string, g.nonterminals)
     return (best, tree)
 
@@ -181,10 +52,10 @@ def parse_tree(M, D, i, j, l, a, NT):
             for A, q1 in M.get(i, k):
                 for B, q2 in M.get(k, j):
                     for dab in NT:
-                        if dab.lhs == D and\
-                            dab.rhs.split()[0] == A and\
-                            dab.rhs.split()[1] == B and\
-                            dab.errors + q1 + q2 == l:
+                        if (dab.lhs == D and
+                            dab.rhs.split()[0] == A and
+                            dab.rhs.split()[1] == B and
+                            dab.errors + q1 + q2 == l):
                             raise BreakIt
         raise ValueError('Could not match in Deep Loop in parse_tree')
     except BreakIt: pass
@@ -228,7 +99,6 @@ errors between them"""
 def run_parser(g, input_string):
     e, tree = error_correcting_parser(g, input_string)
     flatten_string = flatten_tree(tree, g.terminals, "")
-    print tree
     print "I : " + input_string
     print "I': " + flatten_string
     print "I\": " + flatten_string.replace('-','')
