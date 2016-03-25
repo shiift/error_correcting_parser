@@ -3,13 +3,9 @@ import re
 class BreakIt(Exception): pass
 
 """Production conatins a left hand side, right hand side and number of errors
-for the production. Double underscore in front of the symbol is reserved and
-__e can be used for epsilon transitions. Reserved: __H, __I"""
+for the production."""
 class Production:
     regex = r'->([0-9]+)?'
-    H = '__H'
-    I = '__I'
-    epsilon = '__e'
     def __init__(self, arg0, arg1=None, arg2=None):
         if arg1 == None:
             self.set_str(arg0)
@@ -35,6 +31,10 @@ class Production:
         self.errors = errors
         self.rhs = rhs
         return self
+    def is_T(self):
+        return len(self.rhs.split()) == 1 and self.rhs.islower()
+    def is_NT(self):
+        return not self.is_T()
     def __repr__(self):
         return self.lhs + " ->" + str(self.errors) + " " + self.rhs
 
@@ -46,40 +46,13 @@ class Grammar:
         self.productions = []
         self.terminals = []
         self.nonterminals = []
-        self.chars = {}
-        self.nullable = {}
     def add_production(self, string):
         p = Production(string)
         self.productions.append(p)
-        if self.is_T(p):
+        if p.is_T():
             self.terminals.append(p)
-            if p.rhs == Production.epsilon:
-                self.nullable[p.lhs] = 1
-            else:
-                self.chars[p.rhs] = True
         else:
             self.nonterminals.append(p)
-    def import_productions(self, g):
-        for p in g.productions:
-            self.productions.append(p)
-        for t in g.terminals:
-            self.terminals.append(t)
-            self.chars[t.rhs] = True
-        for nt in g.nonterminals:
-            self.nonterminals.append(nt)
-    def get_productions(self, A):
-        l = []
-        for p in self.productions:
-            if p.lhs == A:
-                l.append(p)
-        return l
-    def is_T(self, p):
-        return len(p.rhs.split()) == 1 and p.rhs.islower()
-    def is_NT(self, p):
-        return not is_T(p)
-    def remove_epsilons(self):
-        self.productions[:] = [x for x in self.productions if x.rhs != Production.epsilon]
-        self.terminals[:] = [x for x in self.terminals if x.rhs != Production.epsilon]
     def __repr__(self):
         string = "nonterminals:\n"
         for nt in self.nonterminals:
@@ -87,8 +60,6 @@ class Grammar:
         string += "terminals:\n"
         for t in self.terminals:
             string += "\t{}\n".format(t)
-        string += "chars: {}\n".format(self.chars.keys())
-        string += "nullable: {}".format(self.nullable)
         return string
 
 class Lookup:
