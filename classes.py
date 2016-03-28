@@ -7,6 +7,7 @@ for the production."""
 class Production:
     regex = r'->([0-9]+)?'
     def __init__(self, arg0, arg1=None, arg2=None):
+        self.marked = False
         if arg1 == None:
             self.set_str(arg0)
         else:
@@ -22,7 +23,8 @@ class Production:
                 self.errors = 0
                 pass
         else:
-            raise ValueError("Productions must be in the form: S ->0 A B")
+            raise ValueError("Productions must be in the form: S ->0 A B\n" +
+                "Cannot use {}".format(string))
         lhs_rhs = re.split(self.regex, string)
         self.lhs = lhs_rhs[0].strip()
         self.rhs = lhs_rhs[2].strip()
@@ -88,7 +90,7 @@ class Lookup:
             newlist.extend(l)
         return newlist
     def __repr__(self):
-        return str(self.data.keys());
+        return str(self.data.keys())
 
 class Matrix:
     def __init__(self, size):
