@@ -1,53 +1,63 @@
 import argparse
-import classes
 import copy
 
-"""Production conatins a left hand side, right hand side and number of
-errors for the production. Double underscore in front of the symbol is
-reserved and __e can be used for epsilon transitions.
-Reserved: __H, __I"""
-class Production(classes.Production):
-    H = '__H'
-    I = '__I'
-    epsilon = '__e'
+import classes
 
-"""Grammar conatins a list of productions, a list of terminals, a list of
-non-terminals, and the top level symbol character ('S' by default)"""
-class Grammar:
-    S = 'S'
+
+class Production(classes.Production):
+    """Production conatins a left hand side, right hand side and number of
+    errors for the production. Double underscore in front of the symbol is
+    reserved and __e can be used for epsilon transitions.
+    Reserved: __H, __I"""
+    H_SYM = '__H'
+    I_SYM = '__I'
+    EPSILON = '__e'
+
+    def is_Unit(self):
+        if self.is_NT() and len(self.rhs.split()) == 1:
+            return True
+        return False
+
+
+class Grammar(object):
+    """Grammar conatins a list of productions, a list of terminals, a list of
+    non-terminals, and the top level symbol character ('S' by default)"""
     def __init__(self):
         self.productions = {}
         self.terminals = {}
         self.nonterminals = {}
         self.chars = {}
         self.nullable = {}
+
     def add_production(self, string):
-        p = Production(string)
-        self.add_to_productions(p.lhs, p)
-    def add_to_productions(self, A, p):
-        self.add_to(self.productions, A, p)
-        if p.is_T():
-            self.add_to(self.terminals, A, p)
-            if p.rhs == Production.epsilon:
-                self.nullable[A] = 1
+        new_production = Production(string)
+        self.add_to_productions(new_production.lhs, new_production)
+
+    def add_to_productions(self, symbol, new_production):
+        self.add_to(self.productions, symbol, new_production)
+        if new_production.is_T():
+            self.add_to(self.terminals, symbol, new_production)
+            if new_production.rhs == Production.EPSILON:
+                self.nullable[symbol] = 1
             else:
-                self.chars[p.rhs] = True
+                self.chars[new_production.rhs] = True
         else:
-            self.add_to(self.nonterminals, A, p)
-    def add_to(self, group, A, p):
-        if not A in group:
-            group[A] = []
-        group[A].append(p)
+            self.add_to(self.nonterminals, symbol, new_production)
+
+    def add_to(self, group, symbol, new_production):
+        if symbol not in group:
+            group[symbol] = []
+        group[symbol].append(new_production)
+
     def insert_if_better(self, string):
         newp = Production(string)
-        if not newp.lhs in self.productions:
+        if newp.lhs not in self.productions:
             self.add_production(string)
             return
         productions = self.productions[newp.lhs]
-        for i in range(len(productions)):
-            p = productions[i]
-            if newp.rhs == p.rhs:
-                if newp.errors < p.errors:
+        for i, production in enumerate(productions):
+            if newp.rhs == production.rhs:
+                if newp.errors < production.errors:
                     productions.pop(i)
                     break
                 else:
@@ -55,10 +65,9 @@ class Grammar:
         if newp.is_T():
             if newp.lhs in self.terminals:
                 terminals = self.terminals[newp.lhs]
-                for i in range(len(terminals)):
-                    p = terminals[i]
-                    if newp.rhs == p.rhs:
-                        if newp.errors < p.errors:
+                for i, terminal in enumerate(terminals):
+                    if newp.rhs == terminal.rhs:
+                        if newp.errors < terminal.errors:
                             terminals.pop(i)
                             break
                         else:
@@ -66,163 +75,212 @@ class Grammar:
         else:
             if newp.lhs in self.nonterminals:
                 nonterminals = self.nonterminals[newp.lhs]
-                for i in range(len(nonterminals)):
-                    p = nonterminals[i]
-                    if newp.rhs == p.rhs:
-                        if newp.errors < p.errors:
+                for i, nonterminal in enumerate(nonterminals):
+                    nonterminal = nonterminals[i]
+                    if newp.rhs == nonterminal.rhs:
+                        if newp.errors < nonterminal.errors:
                             nonterminals.pop(i)
                             break
                         else:
                             raise ValueError("Unmatching p/nt")
         self.add_production(string)
+
     def remove_epsilons(self):
-        for A in self.productions:
-            prods = self.productions[A]
-            prods[:] = [x for x in prods if x.rhs != Production.epsilon]
+        for symbol in self.productions:
+            prods = self.productions[symbol]
+            prods[:] = [x for x in prods if x.rhs != Production.EPSILON]
             if not prods:
-                self.productions.pop(A)
-        for A in self.terminals:
-            terms = self.terminals[A]
-            terms[:] = [x for x in terms if x.rhs != Production.epsilon]
+                self.productions.pop(symbol)
+        for symbol in self.terminals:
+            terms = self.terminals[symbol]
+            terms[:] = [x for x in terms if x.rhs != Production.EPSILON]
             if not terms:
-                self.terminals.pop(A)
+                self.terminals.pop(symbol)
+
     def get_unit_productions(self):
-        l = []
-        for A in self.nonterminals:
-            nts = self.nonterminals[A]
-            for nt in nts:
-                if len(nt.rhs.split()) == 1:
-                    l.append(nt)
-        return l
+        unit_list = []
+        for symbol in self.nonterminals:
+            for nonterminal in self.nonterminals[symbol]:
+                if nonterminal.is_Unit():
+                    unit_list.append(nonterminal)
+        return unit_list
+
     def to_str_formatted(self):
         string = "nonterminals:\n"
-        for nt in self.nonterminals:
-            string += "\t{} => {}\n".format(nt, self.nonterminals[nt])
+        for nonterminal in self.nonterminals:
+            string += "\t{0} => {1}\n".format(
+                nonterminal,
+                self.nonterminals[nonterminal])
         string += "terminals:\n"
-        for t in self.terminals:
-            string += "\t{} => {}\n".format(t, self.terminals[t])
-        string += "chars: {}\n".format(self.chars.keys())
-        string += "nullable: {}".format(self.nullable)
-        return string
-    def __repr__(self):
-        string = ""
-        for A in self.productions:
-            for p in self.productions[A]:
-                string += str(p) + "\n"
+        for terminal in self.terminals:
+            string += "\t{0} => {1}\n".format(
+                terminal,
+                self.terminals[terminal])
+        string += "chars: {0}\n".format(self.chars.keys())
+        string += "nullable: {0}".format(self.nullable)
         return string
 
-def generate_cover(g):
-    gp = Grammar()
-    gp = copy.deepcopy(g)
-    gp.add_production('{0} -> {0} {1}'.format(Production.H, Production.I))
-    gp.add_production('{0} -> {1}'.format(Production.H, Production.I))
-    for c in g.chars:
-        gp.add_production('{0} ->1 {1}'.format(Production.I, c))
-    for A in g.terminals:
-        terminals = g.terminals[A]
-        chars = g.chars.copy()
+    def __repr__(self):
+        string = ""
+        for symbol in self.productions:
+            for production in self.productions[symbol]:
+                string += str(production) + "\n"
+        return string[:-1]
+
+
+def generate_cover(grammar):
+    grammar_prime = Grammar()
+    grammar_prime = copy.deepcopy(grammar)
+    grammar_prime.add_production('{0} -> {0} {1}'
+                                 .format(Production.H_SYM, Production.I_SYM))
+    grammar_prime.add_production('{0} -> {1}'
+                                 .format(Production.H_SYM, Production.I_SYM))
+    for char in grammar.chars:
+        grammar_prime.add_production('{0} ->1 {1}'
+                                     .format(Production.I_SYM, char))
+    for symbol, terminals in grammar.terminals.iteritems():
+        chars = grammar.chars.copy()
         for production in terminals:
             for char in chars:
                 if production.rhs == char:
                     chars[char] = False
         for char in chars:
             if chars[char]:
-                gp.add_production('{0} ->1 {1}'.format(A, char))
-        gp.add_production('{0} ->1 {1}'.format(A, Production.epsilon))
-        gp.add_production('{0} ->0 {0} {1}'.format(A, Production.H))
-        gp.add_production('{0} ->0 {1} {0}'.format(A, Production.H))
+                grammar_prime.add_production('{0} ->1 {1}'
+                                             .format(symbol, char))
+        grammar_prime.add_production('{0} ->1 {1}'
+                                     .format(symbol, Production.EPSILON))
+        grammar_prime.add_production('{0} ->0 {0} {1}'
+                                     .format(symbol, Production.H_SYM))
+        grammar_prime.add_production('{0} ->0 {1} {0}'
+                                     .format(symbol, Production.H_SYM))
     # Elimination of __e productions
-    for A in gp.productions:
-        set_nullable(gp, A)
-    for A in gp.nonterminals:
-        add_nullable_productions(gp, A)
-    gp.remove_epsilons()
-    print gp.to_str_formatted()
-    # # Elimination of unit productions
-    # ups = gp.get_unit_productions()
-    # for p in ups:
-    #     add_transition_productions(gp, ups, p.lhs, p.lhs, p.errors)
-    # remove_unit_productions(gp, ups)
-    # return gp
+    for symbol in grammar_prime.productions:
+        set_nullable(grammar_prime, symbol)
+    for symbol in grammar_prime.nonterminals:
+        add_nullable_productions(grammar_prime, symbol)
+    grammar_prime.remove_epsilons()
+    # Elimination of unit productions
+    unit_productions = grammar_prime.get_unit_productions()
+    for production in unit_productions:
+        add_transition_productions(grammar_prime,
+                                   unit_productions,
+                                   production.lhs,
+                                   production.rhs,
+                                   production.errors)
+    remove_unit_productions(grammar_prime)
+    return grammar_prime
 
-def remove_unit_productions(gp, ups):
-    for up in ups:
-        if up.lhs in gp.productions:
-            productions = gp.productions[up.lhs]
-            for i in range(len(productions)):
-                if productions[i].rhs == up.rhs:
-                    productions.pop(i)
-                    break
-            nonterminals = gp.nonterminals[up.lhs]
-            for i in range(len(nonterminals)):
-                if nonterminals[i].rhs == up.rhs:
-                    nonterminals.pop(i)
-                    break
 
-def add_transition_productions(gp, ups, A, C, errors):
-    if C in gp.terminals:
-        for t in gp.terminals[C]:
-            gp.insert_if_better('{} ->{} {}'.format(A,
-                errors + t.errors, t.rhs))
-    for up in ups:
-        if up.lhs == C:
-            add_transition_productions(gp, ups, A, up.rhs,
-                errors + up.errors)
+def remove_unit_productions(grammar):
+    for symbol in grammar.productions:
+        prod_locations = []
+        productions = grammar.productions[symbol]
+        for i, production in enumerate(productions):
+            if production.is_Unit():
+                prod_locations.insert(0, i)
+        for i in prod_locations:
+            productions.pop(i)
+    for symbol in grammar.nonterminals:
+        nt_locations = []
+        nonterminals = grammar.nonterminals[symbol]
+        for i, nonterminal in enumerate(nonterminals):
+            if nonterminal.is_Unit():
+                nt_locations.insert(0, i)
+        for i in nt_locations:
+            nonterminals.pop(i)
 
-def add_nullable_productions(gp, A):
-    prods = gp.nonterminals[A]
-    for p in prods:
-        if len(p.rhs.split()) == 2:
-            B, C = p.rhs.split()
-            if B in gp.nullable and not C in gp.nullable:
-                gp.insert_if_better('{} ->{} {}'.format(A,
-                    p.errors + gp.nullable[B], C))
-            elif not B in gp.nullable and C in gp.nullable:
-                gp.insert_if_better('{} ->{} {}'.format(A,
-                    p.errors + gp.nullable[C], B))
 
-def set_nullable(gp, B):
-    if not B in gp.productions:
+def add_transition_productions(grammar, unit_productions, symbol_top,
+                               symbol_current, errors):
+    if symbol_current in grammar.productions:
+        for production in grammar.productions[symbol_current]:
+            if not production.is_Unit:
+                grammar.insert_if_better(
+                    '{} ->{} {}'.format(
+                        symbol_top,
+                        errors+production.errors,
+                        production.rhs))
+    for unit_production in unit_productions:
+        if unit_production.lhs == symbol_current:
+            new_unit_productions = [u for u in unit_productions
+                                    if u != unit_production]
+            add_transition_productions(
+                grammar,
+                new_unit_productions,
+                symbol_top,
+                unit_production.rhs,
+                errors+unit_production.errors)
+
+
+def add_nullable_productions(grammar, symbol):
+    productions = grammar.nonterminals[symbol]
+    for production in productions:
+        if len(production.rhs.split()) == 2:
+            rhs_b, rhs_c = production.rhs.split()
+            if rhs_b in grammar.nullable:
+                grammar.insert_if_better('{} ->{} {}'.format(
+                    symbol,
+                    production.errors+grammar.nullable[rhs_b],
+                    rhs_c))
+            if rhs_c in grammar.nullable:
+                grammar.insert_if_better('{} ->{} {}'.format(
+                    symbol,
+                    production.errors+grammar.nullable[rhs_c],
+                    rhs_b))
+
+
+def set_nullable(grammar, symbol):
+    if symbol not in grammar.productions:
         return False
-    for p in gp.productions[B]:
-        if not p.marked:
-            p.marked = True
-            if len(p.rhs.split()) == 2:
-                C, D = p.rhs.split()
-                if C == B or D == B:
-                    p.marked = False
+    for production in grammar.productions[symbol]:
+        if not production.marked:
+            production.marked = True
+            if len(production.rhs.split()) == 2:
+                rhs_b, rhs_c = production.rhs.split()
+                if rhs_b == symbol or rhs_c == symbol:
+                    production.marked = False
                     continue
-                if not C in gp.nullable and not set_nullable(gp, C):
-                    p.marked = False
+                if (rhs_b not in grammar.nullable and
+                        not set_nullable(grammar, rhs_b)):
+                    production.marked = False
                     return False
-                if not D in gp.nullable and not set_nullable(gp, D):
-                    p.marked = False
+                if (rhs_c not in grammar.nullable and
+                        not set_nullable(grammar, rhs_c)):
+                    production.marked = False
                     return False
-                sum_null = gp.nullable[C] + gp.nullable[D]
-                if not B in gp.nullable or sum_null < gp.nullable[B]:
-                    gp.nullable[B] = sum_null
-                    p.marked = False
+                sum_null = grammar.nullable[rhs_b] + grammar.nullable[rhs_c]
+                if (symbol not in grammar.nullable or
+                        sum_null < grammar.nullable[symbol]):
+                    grammar.nullable[symbol] = sum_null
+                    production.marked = False
                     return True
             else:
-                C = p.rhs
-                if not C in gp.nullable and not set_nullable(gp, C):
-                    p.marked = False
-                    return False        
-                if not B in gp.nullable or gp.nullable[C] < gp.nullable[B]:
-                    gp.nullable[B] = gp.nullable[C]
-                    p.marked = False
+                rhs_b = production.rhs
+                if (rhs_b not in grammar.nullable and
+                        not set_nullable(grammar, rhs_b)):
+                    production.marked = False
+                    return False
+                if (symbol not in grammar.nullable or
+                        grammar.nullable[rhs_b] < grammar.nullable[symbol]):
+                    grammar.nullable[symbol] = grammar.nullable[rhs_b]
+                    production.marked = False
                     return True
     return False
 
+
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-g', '--grammar-file', default='grammar_raw.txt',
-        type=argparse.FileType('r'), help="grammar file of rule to use")
+    parser.add_argument('-g', '--grammar-file',
+                        default='grammar_raw.txt',
+                        type=argparse.FileType('r'),
+                        help="grammar file of rule to use")
     args = parser.parse_args()
 
-    g = Grammar()
+    grammar = Grammar()
     for line in args.grammar_file:
-        g.add_production(line)
-    generate_cover(g)
+        grammar.add_production(line)
+    generate_cover(grammar)
 
-main()
+if __name__ == '__main__':
+    main()
