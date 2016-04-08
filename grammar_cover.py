@@ -8,7 +8,8 @@ class Production(classes.Production):
     """Production conatins a left hand side, right hand side and number of
     errors for the production. Double underscore in front of the symbol is
     reserved and __e can be used for epsilon transitions.
-    Reserved: __H, __I"""
+    Reserved: __H, __I
+    """
     H_SYM = '__H'
     I_SYM = '__I'
     EPSILON = '__e'
@@ -21,7 +22,8 @@ class Production(classes.Production):
 
 class Grammar(object):
     """Grammar conatins a list of productions, a list of terminals, a list of
-    non-terminals, and the top level symbol character ('S' by default)"""
+    non-terminals, and the top level symbol character ('S' by default)
+    """
     def __init__(self):
         self.productions = {}
         self.terminals = {}

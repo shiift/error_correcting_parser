@@ -79,7 +79,8 @@ class Lookup:
         for production in productions:
             lhs = production.lhs
             self.data[lhs] = []
-            self.data[lhs].extend([[] for x in range(size)])
+            for _ in range(0, size):
+                self.data[lhs].append([])
 
     def insert(self, lhs, new_tup):
         tups = self.get(lhs, new_tup[0])
@@ -110,7 +111,7 @@ class Matrix:
         self.size = size
         self.data = [None] * size
         for i in range(0, size):
-            self.data[i] = [[] for x in range(size-i)]
+            self.data[i] = [[] for _ in range(size-i)]
 
     def insert(self, i, j, new_tup):
         tups = self.get(i, j)
