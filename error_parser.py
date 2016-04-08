@@ -131,7 +131,7 @@ def main():
     group.add_argument('-i', '--infile',
                        type=argparse.FileType('r'),
                        help="file of strings to be tested")
-    parser.add_argument('-g', '--grammar-file', default='grammar.txt',
+    parser.add_argument('-g', '--grammar_file', default='grammar.txt',
                         type=argparse.FileType('r'),
                         help="grammar file of rule to use")
     args = parser.parse_args()

@@ -68,23 +68,19 @@ class Grammar(object):
             if newp.lhs in self.terminals:
                 terminals = self.terminals[newp.lhs]
                 for i, terminal in enumerate(terminals):
-                    if newp.rhs == terminal.rhs:
-                        if newp.errors < terminal.errors:
-                            terminals.pop(i)
-                            break
-                        else:
-                            raise ValueError("Unmatching p/nt")
+                    if newp.rhs == terminal.rhs and\
+                            newp.errors < terminal.errors:
+                        terminals.pop(i)
+                        break
         else:
             if newp.lhs in self.nonterminals:
                 nonterminals = self.nonterminals[newp.lhs]
                 for i, nonterminal in enumerate(nonterminals):
                     nonterminal = nonterminals[i]
-                    if newp.rhs == nonterminal.rhs:
-                        if newp.errors < nonterminal.errors:
-                            nonterminals.pop(i)
-                            break
-                        else:
-                            raise ValueError("Unmatching p/nt")
+                    if newp.rhs == nonterminal.rhs and\
+                            newp.errors < nonterminal.errors:
+                        nonterminals.pop(i)
+                        break
         self.add_production(string)
 
     def remove_epsilons(self):
@@ -274,8 +270,7 @@ def set_nullable(grammar, symbol):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-g', '--grammar-file',
-                        default='grammar_raw.txt',
+    parser.add_argument('grammar_file',
                         type=argparse.FileType('r'),
                         help="grammar file of rule to use")
     args = parser.parse_args()
