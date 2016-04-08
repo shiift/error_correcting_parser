@@ -14,7 +14,7 @@ class Production(classes.Production):
     EPSILON = '__e'
 
     def is_Unit(self):
-        if self.is_NT() and len(self.rhs.split()) == 1:
+        if self.is_T() or (self.is_NT() and len(self.rhs.split()) == 1):
             return True
         return False
 
@@ -138,7 +138,7 @@ def generate_cover(grammar):
     for char in grammar.chars:
         grammar_prime.add_production('{0} ->1 {1}'
                                      .format(Production.I_SYM, char))
-    for symbol, terminals in grammar.terminals.iteritems():
+    for symbol, terminals in grammar.terminals.items():
         chars = grammar.chars.copy()
         for production in terminals:
             for char in chars:
@@ -169,6 +169,7 @@ def generate_cover(grammar):
                                    production.rhs,
                                    production.errors)
     remove_unit_productions(grammar_prime)
+    print(grammar_prime)
     return grammar_prime
 
 
@@ -177,7 +178,7 @@ def remove_unit_productions(grammar):
         prod_locations = []
         productions = grammar.productions[symbol]
         for i, production in enumerate(productions):
-            if production.is_Unit():
+            if production.is_Unit() and production.is_NT():
                 prod_locations.insert(0, i)
         for i in prod_locations:
             productions.pop(i)
@@ -195,12 +196,12 @@ def add_transition_productions(grammar, unit_productions, symbol_top,
                                symbol_current, errors):
     if symbol_current in grammar.productions:
         for production in grammar.productions[symbol_current]:
-            if not production.is_Unit:
-                grammar.insert_if_better(
-                    '{} ->{} {}'.format(
-                        symbol_top,
-                        errors+production.errors,
-                        production.rhs))
+            # if not production.is_Unit:
+            grammar.insert_if_better(
+                '{} ->{} {}'.format(
+                    symbol_top,
+                    errors+production.errors,
+                    production.rhs))
     for unit_production in unit_productions:
         if unit_production.lhs == symbol_current:
             new_unit_productions = [u for u in unit_productions
