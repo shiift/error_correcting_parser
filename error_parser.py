@@ -87,7 +87,7 @@ def flatten_tree(tree, terminals, accumulator):
     if tree is None:
         return ""
     if tree.left is None and tree.right is None:
-        return find_correction(tree.p, terminals)
+        return find_correction(tree.production, terminals)
     left_string = flatten_tree(tree.left, terminals, accumulator)
     accumulator += left_string +\
         flatten_tree(tree.right, terminals, accumulator)

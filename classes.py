@@ -141,22 +141,22 @@ class Matrix:
 
 
 class Node:
-    def __init__(self, i, j, p):
+    def __init__(self, i, j, production):
         self.i = i
         self.j = j
-        self.p = p
+        self.production = production
         self.left = None
         self.right = None
 
-    def print_node(self, i, s):
+    def print_node(self, i, accumulator):
         str_list = []
-        for j in range(i):
+        for _ in range(i):
             str_list.append(" ")
-        str_list.append(str(self.p) + "\n")
+        str_list.append(str(self.production) + "\n")
         if self.left is not None:
-            str_list.append(self.left.print_node(i+1, s))
+            str_list.append(self.left.print_node(i+1, accumulator))
         if self.right is not None:
-            str_list.append(self.right.print_node(i+1, s))
+            str_list.append(self.right.print_node(i+1, accumulator))
         return "".join(str_list)
 
     def __repr__(self):
