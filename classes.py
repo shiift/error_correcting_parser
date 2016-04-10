@@ -80,26 +80,19 @@ class Lookup:
             lhs = production.lhs
             self.data[lhs] = []
             for _ in range(0, size):
-                self.data[lhs].append([])
+                self.data[lhs].append({})
 
     def insert(self, lhs, new_tup):
-        tups = self.get(lhs, new_tup[0])
-        for i, old_tup in enumerate(tups):
-            if old_tup[1] == new_tup[1]:
-                if old_tup[2] > new_tup[2]:
-                    tups.pop(i)
-                    break
-                else:
-                    return
-        self.get(lhs, new_tup[0]).append(new_tup)
-
-    def get(self, lhs, i):
-        return self.data[lhs][i-1]
+        tup_hash = self.data[lhs][new_tup[0]-1]
+        if new_tup[1] in tup_hash:
+            if tup_hash[new_tup[1]][2] <= new_tup[2]:
+                return
+        tup_hash[new_tup[1]] = new_tup
 
     def get_all(self, lhs):
         newlist = []
-        for sublist in self.data[lhs]:
-            newlist.extend(sublist)
+        for tup_hash in self.data[lhs]:
+            newlist.extend(tup_hash.values())
         return newlist
 
     def __repr__(self):
@@ -111,23 +104,19 @@ class Matrix:
         self.size = size
         self.data = [None] * size
         for i in range(0, size):
-            self.data[i] = [[] for _ in range(size-i)]
+            self.data[i] = [{} for _ in range(size-i)]
 
     def insert(self, i, j, new_tup):
-        tups = self.get(i, j)
-        for k, old_tup in enumerate(tups):
-            if old_tup[0] == new_tup[0]:
-                if old_tup[1] > new_tup[1]:
-                    tups.pop(k)
-                    break
-                else:
-                    return
-        self.get(i, j).append(new_tup)
+        tup_hash = self.data[i-1][j-i-1]
+        if new_tup[0] in tup_hash:
+            if tup_hash[new_tup[0]][1] <= new_tup[1]:
+                return
+        tup_hash[new_tup[0]] = new_tup
 
     def get(self, i, j):
         if i >= j:
             raise IndexError((
-                "Cannot get {} >= {} of M. "
+                "Cannot get ({}, {}) of M. "
                 "Location outside of range.").format(i, j))
         return self.data[i-1][j-i-1]
 

@@ -29,17 +29,18 @@ def error_correcting_parser(grammar, input_string):  # pylint: disable=R0914
             B, C = production.rhs.split()
             for i, k, l_1 in list_x.get_all(B):
                 if (k < i + s_var) and (i + s_var <= input_size + 1):
-                    for prod_symbol, l_2 in cyk_matrix.get(k, i+s_var):
-                        if prod_symbol == C:
-                            l_total = l_1 + l_2 + l_3
-                            cyk_matrix.insert(i, i+s_var, (A, l_total))
-                            list_x.insert(A, (i, i+s_var, l_total))
+                    if C in cyk_matrix.get(k, i+s_var):
+                        _, l_2 = cyk_matrix.get(k, i+s_var)[C]
+                        l_total = l_1 + l_2 + l_3
+                        cyk_matrix.insert(i, i+s_var, (A, l_total))
+                        list_x.insert(A, (i, i+s_var, l_total))
     best = None
     for (_, k, errors) in list_x.get(grammar.S, 1):
         if (k == input_size + 1) and (not best or errors < best):
             best = errors
-    tree = parse_tree(cyk_matrix, grammar.S, 1, input_size+1, best,
-                      input_string, grammar.nonterminals)
+    tree = None
+    #tree = parse_tree(cyk_matrix, grammar.S, 1, input_size+1, best,
+    #                  input_string, grammar.nonterminals)
     return (best, tree)
 
 
@@ -117,10 +118,10 @@ def run_parser(grammar, input_string):
     the number of errors between them
     """
     e, tree = error_correcting_parser(grammar, input_string)
-    flatten_string = flatten_tree(tree, grammar.terminals, "")
+    #flatten_string = flatten_tree(tree, grammar.terminals, "")
     print("I : " + input_string)
-    print("I': " + flatten_string)
-    print("I\": " + flatten_string.replace('-', ''))
+    #print("I': " + flatten_string)
+    #print("I\": " + flatten_string.replace('-', ''))
     print("E : " + str(e))
 
 
