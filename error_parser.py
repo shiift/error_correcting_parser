@@ -28,15 +28,14 @@ def error_correcting_parser(grammar, input_string):  # pylint: disable=R0914
             A = production.lhs
             l_3 = production.errors
             B, C = production.rhs.split()
-            for i, k, l_1 in list_x.get_all(B):
+            for i, k, l_1 in list_x.get_all(B, s_var, input_boundry):
                 is_boundry = i + s_var
-                if (is_boundry <= input_boundry) and (k < is_boundry):
-                    cyk_cell = cyk_matrix.get(k, i+s_var)
-                    if C in cyk_cell:
-                        _, l_2 = cyk_cell[C]
-                        l_total = l_1 + l_2 + l_3
-                        cyk_matrix.insert(i, i+s_var, (A, l_total))
-                        list_x.insert(A, (i, i+s_var, l_total))
+                cyk_cell = cyk_matrix.get(k, is_boundry)
+                if C in cyk_cell:
+                    _, l_2 = cyk_cell[C]
+                    l_total = l_1 + l_2 + l_3
+                    cyk_matrix.insert(i, is_boundry, (A, l_total))
+                    list_x.insert(A, (i, is_boundry, l_total))
     best = None
     for (_, k, errors) in list_x.get(grammar.S, 1):
         if (k == input_boundry) and (not best or errors < best):

@@ -89,10 +89,13 @@ class Lookup:
                 return
         tup_hash[new_tup[1]] = new_tup
 
-    def get_all(self, lhs):
+    def get_all(self, lhs, s_var, input_boundry):
         newlist = []
         for tup_hash in self.data[lhs]:
-            newlist.extend(tup_hash.values())
+            newlist.extend([
+                x for x in tup_hash.values()
+                if (x[0] + s_var <= input_boundry) and (x[1] < x[0] + s_var)
+            ])
         return newlist
 
     def get(self, lhs, i):
@@ -117,10 +120,6 @@ class Matrix:
         tup_hash[new_tup[0]] = new_tup
 
     def get(self, i, j):
-        if i >= j:
-            raise IndexError((
-                "Cannot get ({}, {}) of M. "
-                "Location outside of range.").format(i, j))
         return self.data[i-1][j-i-1]
 
     def __repr__(self):
