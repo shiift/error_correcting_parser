@@ -21,9 +21,9 @@ def error_correcting_parser(grammar, input_string):  # pylint: disable=R0914
             if production.rhs == input_string[i:i+1]:
                 A = production.lhs
                 errors = production.errors
-                cyk_matrix.insert(i, i+1, (A, errors))
-                list_x.insert(A, (i, i+1, errors))
-    for s_var in range(2, input_boundry):  # pylint: disable=R0101
+                cyk_matrix.insert(A, i, i+1, errors)
+                list_x.insert(A, i, i+1, errors)
+    for s_var in range(2, input_boundry):
         for production in grammar.nonterminals:
             A = production.lhs
             l_3 = production.errors
@@ -32,17 +32,18 @@ def error_correcting_parser(grammar, input_string):  # pylint: disable=R0914
                 is_boundry = i + s_var
                 cyk_cell = cyk_matrix.get(k, is_boundry)
                 if C in cyk_cell:
-                    _, l_2 = cyk_cell[C]
-                    l_total = l_1 + l_2 + l_3
-                    cyk_matrix.insert(i, is_boundry, (A, l_total))
-                    list_x.insert(A, (i, is_boundry, l_total))
+                    l_total = l_1 + cyk_cell[C][1] + l_3
+                    cyk_matrix.insert(A, i, is_boundry, l_total)
+                    list_x.insert(A, i, is_boundry, l_total)
     best = None
-    for (_, k, errors) in list_x.get(grammar.S, 1):
+    for (_, k, errors) in list_x.get(grammar.S, 1).values():
         if (k == input_boundry) and (not best or errors < best):
             best = errors
+    if best is None:
+        raise ValueError('Could not find a correction. Bad input grammar.')
     tree = None
-    #tree = parse_tree(cyk_matrix, grammar.S, 1, input_boundry, best,
-    #                  input_string, grammar.nonterminals)
+    tree = parse_tree(cyk_matrix, grammar.S, 1, input_boundry, best,
+                      input_string, grammar.nonterminals)
     return (best, tree)
 
 

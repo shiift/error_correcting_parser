@@ -77,29 +77,30 @@ class Lookup:
     def __init__(self, productions, size):
         self.data = {}
         for production in productions:
-            lhs = production.lhs
-            self.data[lhs] = []
+            symbol = production.lhs
+            self.data[symbol] = []
             for _ in range(0, size):
-                self.data[lhs].append({})
+                self.data[symbol].append({})
 
-    def insert(self, lhs, new_tup):
-        tup_hash = self.data[lhs][new_tup[0]-1]
-        if new_tup[1] in tup_hash:
-            if tup_hash[new_tup[1]][2] <= new_tup[2]:
+    def insert(self, symbol, i, j, errors):
+        tup_hash = self.data[symbol][i-1]
+        if j in tup_hash:
+            if tup_hash[j][2] <= errors:
                 return
-        tup_hash[new_tup[1]] = new_tup
+        tup_hash[j] = (i, j, errors)
 
-    def get_all(self, lhs, s_var, input_boundry):
+    def get_all(self, symbol, s_var, input_boundry):
         newlist = []
-        for tup_hash in self.data[lhs]:
-            newlist.extend([
-                x for x in tup_hash.values()
-                if (x[0] + s_var <= input_boundry) and (x[1] < x[0] + s_var)
-            ])
+        for i, tup_hash in enumerate(self.data[symbol]):
+            if i + 1 + s_var <= input_boundry:
+                newlist.extend([
+                    x for j, x in tup_hash.items()
+                    if j < i + 1 + s_var
+                ])
         return newlist
 
-    def get(self, lhs, i):
-        return self.data[lhs][i-1].values()
+    def get(self, symbol, i):
+        return self.data[symbol][i-1]
 
     def __repr__(self):
         return str(self.data.keys())
@@ -112,12 +113,12 @@ class Matrix:
         for i in range(0, size):
             self.data[i] = [{} for _ in range(size-i)]
 
-    def insert(self, i, j, new_tup):
+    def insert(self, symbol, i, j, errors):
         tup_hash = self.data[i-1][j-i-1]
-        if new_tup[0] in tup_hash:
-            if tup_hash[new_tup[0]][1] <= new_tup[1]:
+        if symbol in tup_hash:
+            if tup_hash[symbol][1] <= errors:
                 return
-        tup_hash[new_tup[0]] = new_tup
+        tup_hash[symbol] = (symbol, errors)
 
     def get(self, i, j):
         return self.data[i-1][j-i-1]
