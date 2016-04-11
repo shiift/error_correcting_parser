@@ -48,7 +48,7 @@ class Production:
 class Grammar:
     """Grammar conatins a list of productions, a list of terminals, a list of
     non-terminals, and the top level symbol character ('S' by default)"""
-    S = 'S'
+    TOP_SYMBOL = 'S'
 
     def __init__(self):
         self.productions = []

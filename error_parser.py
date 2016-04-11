@@ -36,13 +36,13 @@ def error_correcting_parser(grammar, input_string):  # pylint: disable=R0914
                     cyk_matrix.insert(A, i, is_boundry, l_total)
                     list_x.insert(A, i, is_boundry, l_total)
     best = None
-    for (_, k, errors) in list_x.get(grammar.S, 1).values():
+    for (_, k, errors) in list_x.get(Grammar.TOP_SYMBOL, 1).values():
         if (k == input_boundry) and (not best or errors < best):
             best = errors
     if best is None:
         raise ValueError('Could not find a correction. Bad input grammar.')
     tree = None
-    tree = parse_tree(cyk_matrix, grammar.S, 1, input_boundry, best,
+    tree = parse_tree(cyk_matrix, Grammar.TOP_SYMBOL, 1, input_boundry, best,
                       input_string, grammar.nonterminals)
     return (best, tree)
 
@@ -55,8 +55,9 @@ def parse_tree(cyk_matrix, current_symbol, i, j, errors,
     to find I'.
     """
     if i == j - 1:
-        for prod_symbol, prod_count in cyk_matrix.get(i, j):
-            if prod_symbol == current_symbol and prod_count == errors:
+        tup = cyk_matrix.get(i, j)
+        if current_symbol in tup:
+            if tup[current_symbol][1] == errors:
                 return Node(i, j, Production(
                     current_symbol, errors, input_string[i]))
         raise ValueError('Could not find Matching {} in cyk_matrix at {}'
@@ -64,13 +65,13 @@ def parse_tree(cyk_matrix, current_symbol, i, j, errors,
     A, B, q_1, q_2, dab, k = [None] * 6
     try:
         for k in range(i+1, j):
-            for A, q_1 in cyk_matrix.get(i, k):
-                for B, q_2 in cyk_matrix.get(k, j):
-                    for dab in nonterminals:
-                        if (dab.lhs == current_symbol and
-                                dab.rhs.split()[0] == A and
-                                dab.rhs.split()[1] == B and
-                                dab.errors + q_1 + q_2 == errors):
+            for dab in nonterminals:
+                if dab.lhs == current_symbol:
+                    A, B = dab.rhs.split()
+                    if A in cyk_matrix.get(i, k) and B in cyk_matrix.get(k, j):
+                        q_1 = cyk_matrix.get(i, k)[A][1]
+                        q_2 = cyk_matrix.get(k, j)[B][1]
+                        if dab.errors + q_1 + q_2 == errors:
                             raise BreakIt
         raise ValueError('Could not match in Deep Loop in parse_tree')
     except BreakIt:
@@ -121,6 +122,7 @@ def run_parser(grammar, input_string):
     the number of errors between them
     """
     e, tree = error_correcting_parser(grammar, input_string)
+    print(tree)
     #flatten_string = flatten_tree(tree, grammar.terminals, "")
     print("I : " + input_string)
     #print("I': " + flatten_string)
