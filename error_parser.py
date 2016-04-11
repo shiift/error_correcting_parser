@@ -17,24 +17,23 @@ def error_correcting_parser(grammar, input_string):  # pylint: disable=R0914
     cyk_matrix = Matrix(input_size)
     input_boundry = input_size + 1
     for i in range(1, input_boundry):
-        for production in grammar.terminals:
-            if production.rhs == input_string[i:i+1]:
-                A = production.lhs
-                errors = production.errors
+        for A, productions in grammar.terminals.items():
+            if input_string[i:i+1] in productions:
+                errors = productions[input_string[i:i+1]].errors
                 cyk_matrix.insert(A, i, i+1, errors)
                 list_x.insert(A, i, i+1, errors)
     for s_var in range(2, input_boundry):
-        for production in grammar.nonterminals:
-            A = production.lhs
-            l_3 = production.errors
-            B, C = production.rhs.split()
-            for i, k, l_1 in list_x.get_all(B, s_var, input_boundry):
-                is_boundry = i + s_var
-                cyk_cell = cyk_matrix.get(k, is_boundry)
-                if C in cyk_cell:
-                    l_total = l_1 + cyk_cell[C][1] + l_3
-                    cyk_matrix.insert(A, i, is_boundry, l_total)
-                    list_x.insert(A, i, is_boundry, l_total)
+        for A, productions in grammar.nonterminals.items():
+            for rhs, production in productions.items():
+                l_3 = production.errors
+                B, C = rhs.split()
+                for i, k, l_1 in list_x.get_all(B, s_var, input_boundry):
+                    is_boundry = i + s_var
+                    cyk_cell = cyk_matrix.get(k, is_boundry)
+                    if C in cyk_cell:
+                        l_total = l_1 + cyk_cell[C][1] + l_3
+                        cyk_matrix.insert(A, i, is_boundry, l_total)
+                        list_x.insert(A, i, is_boundry, l_total)
     best = None
     for (_, k, errors) in list_x.get(Grammar.TOP_SYMBOL, 1).values():
         if (k == input_boundry) and (not best or errors < best):
@@ -65,14 +64,13 @@ def parse_tree(cyk_matrix, current_symbol, i, j, errors,
     A, B, q_1, q_2, dab, k = [None] * 6
     try:
         for k in range(i+1, j):
-            for dab in nonterminals:
-                if dab.lhs == current_symbol:
-                    A, B = dab.rhs.split()
-                    if A in cyk_matrix.get(i, k) and B in cyk_matrix.get(k, j):
-                        q_1 = cyk_matrix.get(i, k)[A][1]
-                        q_2 = cyk_matrix.get(k, j)[B][1]
-                        if dab.errors + q_1 + q_2 == errors:
-                            raise BreakIt
+            for rhs, dab in nonterminals[current_symbol].items():
+                A, B = rhs.split()
+                if A in cyk_matrix.get(i, k) and B in cyk_matrix.get(k, j):
+                    q_1 = cyk_matrix.get(i, k)[A][1]
+                    q_2 = cyk_matrix.get(k, j)[B][1]
+                    if dab.errors + q_1 + q_2 == errors:
+                        raise BreakIt
         raise ValueError('Could not match in Deep Loop in parse_tree')
     except BreakIt:
         pass
@@ -122,11 +120,10 @@ def run_parser(grammar, input_string):
     the number of errors between them
     """
     e, tree = error_correcting_parser(grammar, input_string)
-    print(tree)
-    #flatten_string = flatten_tree(tree, grammar.terminals, "")
+#   flatten_string = flatten_tree(tree, grammar.get_terminals(), "")
     print("I : " + input_string)
-    #print("I': " + flatten_string)
-    #print("I\": " + flatten_string.replace('-', ''))
+#   print("I': " + flatten_string)
+#   print("I\": " + flatten_string.replace('-', ''))
     print("E : " + str(e))
 
 

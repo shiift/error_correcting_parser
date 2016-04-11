@@ -4,19 +4,26 @@ import re
 class Production:
     """Production conatins a left hand side, right hand side and number of
     errors for the production."""
-    regex = r'->([0-9]+)?'
+    REGEX = r'->([0-9]+)?'
+    NONE = 'N'
+    INSERTED = 'INS'
+    REPLACED = 'REP'
+    DELETED = 'DEL'
 
     def __init__(self, arg0, arg1=None, arg2=None):
-        self.marked = False
+        self._type = Production.NONE
+        self._correction = None
+        self._prefix = ""
+        self._suffix = ""
         if arg1 is None:
-            self.set_str(arg0)
+            self.__set_str(arg0)
         else:
-            self.set_vars(arg0, arg1, arg2)
+            self.__set_vars(arg0, arg1, arg2)
 
-    def set_str(self, string):
+    def __set_str(self, string):
         if not string:
             return
-        match = re.search(self.regex, string)
+        match = re.search(self.REGEX, string)
         if match:
             try:
                 self.errors = int(re.sub(r'->', '', match.group(0)))
@@ -25,15 +32,57 @@ class Production:
         else:
             raise ValueError("Productions must be in the form: S ->0 A B\n" +
                              "Cannot use {}".format(string))
-        lhs_rhs = re.split(self.regex, string)
+        lhs_rhs = re.split(self.REGEX, string)
         self.lhs = lhs_rhs[0].strip()
         self.rhs = lhs_rhs[2].strip()
 
-    def set_vars(self, lhs, errors, rhs):
+    def __set_vars(self, lhs, errors, rhs):
         self.lhs = lhs
         self.errors = errors
         self.rhs = rhs
         return self
+
+    def to_tuple(self):
+        return self.lhs, self.rhs, self.errors
+
+    def set_inserted(self):
+        self._type = Production.INSERTED
+        self._correction = True
+
+    def set_replaced(self, replacement_value):
+        self._type = Production.REPLACED
+        self._correction = replacement_value
+
+    def set_deleted(self, deleted_values):
+        self._type = Production.DELETED
+        self._correction = deleted_values
+
+    def inserted(self):
+        if self._type == Production.INSERTED:
+            return self._correction
+        return False
+
+    def replaced(self):
+        if self._type == Production.REPLACED:
+            return self._correction
+        return ""
+
+    def deleted(self):
+        if self._type == Production.DELETED:
+            return self._correction
+        return ""
+
+    def set_prefix(self, prefix_values):
+        self._prefix = prefix_values
+
+    def set_suffix(self, suffix_values):
+        self._suffix = suffix_values
+
+    def prefix(self):
+        return self._prefix
+
+    def suffix(self):
+        return self._suffix
 
     def is_T(self):
         return len(self.rhs.split()) == 1 and self.rhs.islower()
@@ -41,8 +90,15 @@ class Production:
     def is_NT(self):
         return not self.is_T()
 
+    def __str__(self):
+        return "{0:>8} ->{1:>2} {2:>8}::{3:>10}:{4}::{5}::{6}".format(
+            self.lhs, self.errors, self.rhs,
+            self._type, self._correction, self.prefix(), self.suffix())
+
     def __repr__(self):
-        return "{0} ->{1} {2}".format(self.lhs, self.errors, self.rhs)
+        return "{0} ->{1} {2}::{3}:{4}::{5}::{6}".format(
+            self.lhs, self.errors, self.rhs,
+            self._type, self._correction, self.prefix(), self.suffix())
 
 
 class Grammar:
@@ -51,36 +107,32 @@ class Grammar:
     TOP_SYMBOL = 'S'
 
     def __init__(self):
-        self.productions = []
-        self.terminals = []
-        self.nonterminals = []
+        self.productions = {}
+        self.terminals = {}
+        self.nonterminals = {}
 
     def add_production(self, string):
-        production = Production(string)
-        self.productions.append(production)
-        if production.is_T():
-            self.terminals.append(production)
+        new_production = Production(string)
+        self.__add_to(self.productions, new_production)
+        if new_production.is_T():
+            self.__add_to(self.terminals, new_production)
         else:
-            self.nonterminals.append(production)
+            self.__add_to(self.nonterminals, new_production)
+        return new_production
 
-    def __repr__(self):
-        string = "nonterminals:\n"
-        for nonterminal in self.nonterminals:
-            string += "\t{}\n".format(nonterminal)
-        string += "terminals:\n"
-        for terminal in self.terminals:
-            string += "\t{}\n".format(terminal)
-        return string
+    def __add_to(self, group, production):
+        if production.lhs not in group:
+            group[production.lhs] = {}
+        group[production.lhs][production.rhs] = production
 
 
 class Lookup:
     def __init__(self, productions, size):
         self.data = {}
-        for production in productions:
-            symbol = production.lhs
-            self.data[symbol] = []
+        for key in productions:
+            self.data[key] = []
             for _ in range(0, size):
-                self.data[symbol].append({})
+                self.data[key].append({})
 
     def insert(self, symbol, i, j, errors):
         tup_hash = self.data[symbol][i-1]
