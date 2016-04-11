@@ -15,20 +15,22 @@ def error_correcting_parser(grammar, input_string):  # pylint: disable=R0914
     input_string = " " + input_string
     list_x = Lookup(grammar.productions, input_size)
     cyk_matrix = Matrix(input_size)
-    for i in range(1, input_size + 1):
+    input_boundry = input_size + 1
+    for i in range(1, input_boundry):
         for production in grammar.terminals:
             if production.rhs == input_string[i:i+1]:
                 A = production.lhs
                 errors = production.errors
                 cyk_matrix.insert(i, i+1, (A, errors))
                 list_x.insert(A, (i, i+1, errors))
-    for s_var in range(2, input_size + 1):  # pylint: disable=R0101
+    for s_var in range(2, input_boundry):  # pylint: disable=R0101
         for production in grammar.nonterminals:
             A = production.lhs
             l_3 = production.errors
             B, C = production.rhs.split()
             for i, k, l_1 in list_x.get_all(B):
-                if (k < i + s_var) and (i + s_var <= input_size + 1):
+                is_boundry = i + s_var
+                if (is_boundry <= input_boundry) and (k < is_boundry):
                     cyk_cell = cyk_matrix.get(k, i+s_var)
                     if C in cyk_cell:
                         _, l_2 = cyk_cell[C]
@@ -37,10 +39,10 @@ def error_correcting_parser(grammar, input_string):  # pylint: disable=R0914
                         list_x.insert(A, (i, i+s_var, l_total))
     best = None
     for (_, k, errors) in list_x.get(grammar.S, 1):
-        if (k == input_size + 1) and (not best or errors < best):
+        if (k == input_boundry) and (not best or errors < best):
             best = errors
     tree = None
-    #tree = parse_tree(cyk_matrix, grammar.S, 1, input_size+1, best,
+    #tree = parse_tree(cyk_matrix, grammar.S, 1, input_boundry, best,
     #                  input_string, grammar.nonterminals)
     return (best, tree)
 
