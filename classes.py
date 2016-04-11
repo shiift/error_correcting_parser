@@ -95,6 +95,9 @@ class Lookup:
             newlist.extend(tup_hash.values())
         return newlist
 
+    def get(self, lhs, i):
+        return self.data[lhs][i-1].values()
+
     def __repr__(self):
         return str(self.data.keys())
 
