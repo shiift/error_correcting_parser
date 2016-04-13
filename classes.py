@@ -5,13 +5,14 @@ class Production:
     """Production conatins a left hand side, right hand side and number of
     errors for the production."""
     REGEX = r'->([0-9]+)?'
-    NONE = 'N'
-    INSERTED = 'INS'
-    REPLACED = 'REP'
-    DELETED = 'DEL'
+    H_SYM = '__H'
+    I_SYM = '__I'
+    INSERTED = 0
+    REPLACED = 1
+    DELETED = 2
 
     def __init__(self, arg0, arg1=None, arg2=None):
-        self._insert = True
+        self._insert = False
         self._delete = ""
         self._replace = ""
         self._prefix = ""
@@ -24,6 +25,11 @@ class Production:
     def __set_str(self, string):
         if not string:
             return
+        string = string.strip()
+        pieces = string.split(':')
+        if len(pieces) > 1:
+            self.__set_correction_vars(pieces[1:])
+            string = pieces[0]
         match = re.search(self.REGEX, string)
         if match:
             try:
@@ -42,6 +48,13 @@ class Production:
         self.errors = errors
         self.rhs = rhs
         return self
+
+    def __set_correction_vars(self, pieces):
+        self._insert = True if pieces[0] == 'True' else False
+        self._replace = pieces[1]
+        self._delete = pieces[2]
+        self._prefix = pieces[3]
+        self._suffix = pieces[4]
 
     def to_tuple(self):
         return self.lhs, self.rhs, self.errors
@@ -84,6 +97,11 @@ class Production:
     def is_NT(self):
         return not self.is_T()
 
+    def is_Unit(self):
+        if self.is_T() or (self.is_NT() and len(self.rhs.split()) == 1):
+            return True
+        return False
+
     def __repr__(self):
         return "{0} ->{1} {2}:{3}:{4}:{5}:{6}:{7}".format(
             self.lhs, self.errors, self.rhs,
@@ -114,6 +132,13 @@ class Grammar:
         if production.lhs not in group:
             group[production.lhs] = {}
         group[production.lhs][production.rhs] = production
+
+    def __repr__(self):
+        string = ""
+        for productions in self.productions.values():
+            for production in productions.values():
+                string += str(production) + "\n"
+        return string[:-1]
 
 
 class Lookup:
@@ -155,12 +180,12 @@ class Matrix:
         for i in range(0, size):
             self.data[i] = [{} for _ in range(size-i)]
 
-    def insert(self, symbol, i, j, errors):
+    def insert(self, symbol, i, j, errors, production):
         tup_hash = self.data[i-1][j-i-1]
         if symbol in tup_hash:
             if tup_hash[symbol][1] <= errors:
                 return
-        tup_hash[symbol] = (symbol, errors)
+        tup_hash[symbol] = (symbol, errors, production)
 
     def get(self, i, j):
         return self.data[i-1][j-i-1]

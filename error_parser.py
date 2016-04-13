@@ -1,5 +1,6 @@
 import argparse
-from classes import Production, Node, Grammar, Lookup, Matrix
+import copy
+from classes import Node, Grammar, Lookup, Matrix
 
 
 class BreakIt(Exception):
@@ -20,7 +21,8 @@ def error_correcting_parser(grammar, input_string):  # pylint: disable=R0914
         for A, productions in grammar.terminals.items():
             if input_string[i:i+1] in productions:
                 errors = productions[input_string[i:i+1]].errors
-                cyk_matrix.insert(A, i, i+1, errors)
+                cyk_matrix.insert(A, i, i+1, errors,
+                                  productions[input_string[i:i+1]])
                 list_x.insert(A, i, i+1, errors)
     for s_var in range(2, input_boundry):
         for A, productions in grammar.nonterminals.items():
@@ -32,7 +34,10 @@ def error_correcting_parser(grammar, input_string):  # pylint: disable=R0914
                     cyk_cell = cyk_matrix.get(k, is_boundry)
                     if C in cyk_cell:
                         l_total = l_1 + cyk_cell[C][1] + l_3
-                        cyk_matrix.insert(A, i, is_boundry, l_total)
+                        new_production = copy.deepcopy(production)
+                        new_production.errors = l_total
+                        cyk_matrix.insert(
+                            A, i, is_boundry, l_total, new_production)
                         list_x.insert(A, i, is_boundry, l_total)
     best = None
     for (_, k, errors) in list_x.get(Grammar.TOP_SYMBOL, 1).values():
@@ -40,7 +45,6 @@ def error_correcting_parser(grammar, input_string):  # pylint: disable=R0914
             best = errors
     if best is None:
         raise ValueError('Could not find a correction. Bad input grammar.')
-    tree = None
     tree = parse_tree(cyk_matrix, Grammar.TOP_SYMBOL, 1, input_boundry, best,
                       input_string, grammar.nonterminals)
     return (best, tree)
@@ -57,8 +61,7 @@ def parse_tree(cyk_matrix, current_symbol, i, j, errors,
         tup = cyk_matrix.get(i, j)
         if current_symbol in tup:
             if tup[current_symbol][1] == errors:
-                return Node(i, j, Production(
-                    current_symbol, errors, input_string[i]))
+                return Node(i, j, tup[current_symbol][2])
         raise ValueError('Could not find Matching {} in cyk_matrix at {}'
                          .format(current_symbol, (i, j)))
     A, B, q_1, q_2, dab, k = [None] * 6
@@ -82,36 +85,20 @@ def parse_tree(cyk_matrix, current_symbol, i, j, errors,
     return root
 
 
-def flatten_tree(tree, terminals, accumulator):
-    """This takes a parse tree, a list of terminals and an empty string, and
-    returns a string for the closest string in the list of terminals for the
-    tree.
-    """
-    if tree is None:
-        return ""
-    if tree.left is None and tree.right is None:
-        return find_correction(tree.production, terminals)
-    left_string = flatten_tree(tree.left, terminals, accumulator)
-    accumulator += left_string +\
-        flatten_tree(tree.right, terminals, accumulator)
-    return accumulator
-
-
-def find_correction(production, terminals):
-    """Takes a production and a list of terminals and returns the right hand
-    side of the production if has 0 errors, otherwise returns the rhs of a
-    terminal that matches the lhs of the production with 0 errors.
-    """
-    if production.errors == 0:
-        return production.rhs
-    for terminal in terminals:
-        if terminal.lhs == production.lhs and terminal.errors == 0:
-            return terminal.rhs
-    return '-'
-    # TODO: Finish Error Correction
-    # raise ValueError(('Could not find an in-language symbol to map: {0}\n'
-    #                   'Is the grammar have a mapping from the lhs to a'
-    #                   'character with 0 errors?').format(production))
+def correct_string(node):
+    res = ""
+    production = node.production
+    if production.is_T():
+        if production.errors == 0:
+            res = production.rhs
+        elif production.inserted():
+            res = ""
+        elif production.replaced() != "":
+            res = production.replaced()
+    elif production.is_NT():
+        res = correct_string(node.left) + correct_string(node.right)
+    res = production.prefix() + res + production.suffix()
+    return res
 
 
 def run_parser(grammar, input_string):
@@ -120,10 +107,10 @@ def run_parser(grammar, input_string):
     the number of errors between them
     """
     e, tree = error_correcting_parser(grammar, input_string)
-#   flatten_string = flatten_tree(tree, grammar.get_terminals(), "")
+    print(tree)
+    corrected_string = correct_string(tree)
     print("I : " + input_string)
-#   print("I': " + flatten_string)
-#   print("I\": " + flatten_string.replace('-', ''))
+    print("I': " + corrected_string)
     print("E : " + str(e))
 
 

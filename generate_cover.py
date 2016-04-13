@@ -10,18 +10,7 @@ class Production(classes.Production):
     reserved and __e can be used for epsilon transitions.
     Reserved: __H, __I
     """
-    H_SYM = '__H'
-    I_SYM = '__I'
     EPSILON = '__e'
-
-    def __init__(self, arg0, arg1=None, arg2=None):
-        classes.Production.__init__(self, arg0, arg1, arg2)
-        self.exclude = False  # TODO: Delete
-
-    def is_Unit(self):
-        if self.is_T() or (self.is_NT() and len(self.rhs.split()) == 1):
-            return True
-        return False
 
 
 class Grammar(classes.Grammar):
@@ -72,13 +61,6 @@ class Grammar(classes.Grammar):
                         self.nonterminals[lhs].pop(rhs)
         self.add_production(new_production)
         return True
-
-    def __repr__(self):
-        string = ""
-        for productions in self.productions.values():
-            for production in productions.values():
-                string += str(production) + "\n"
-        return string[:-1]
 
 
 def construct_covering(grammar):
