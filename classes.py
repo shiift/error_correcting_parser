@@ -11,8 +11,9 @@ class Production:
     DELETED = 'DEL'
 
     def __init__(self, arg0, arg1=None, arg2=None):
-        self._type = Production.NONE
-        self._correction = None
+        self._insert = True
+        self._delete = ""
+        self._replace = ""
         self._prefix = ""
         self._suffix = ""
         if arg1 is None:
@@ -46,30 +47,30 @@ class Production:
         return self.lhs, self.rhs, self.errors
 
     def set_type(self, new_type, value=True):
-        self._type = Production.INSERTED
-        self._correction = value
+        if new_type == self.INSERTED:
+            self._insert = value
+        elif new_type == self.REPLACED:
+            self._replace = value
+        elif new_type == self.DELETED:
+            self._delete = value
         return self
 
     def inserted(self):
-        if self._type == Production.INSERTED:
-            return self._correction
-        return False
+        return self._insert
 
     def replaced(self):
-        if self._type == Production.REPLACED:
-            return self._correction
-        return ""
+        return self._replace
 
     def deleted(self):
-        if self._type == Production.DELETED:
-            return self._correction
-        return ""
+        return self._delete
 
     def set_prefix(self, prefix_values):
         self._prefix = prefix_values
+        return self
 
     def set_suffix(self, suffix_values):
         self._suffix = suffix_values
+        return self
 
     def prefix(self):
         return self._prefix
@@ -83,13 +84,11 @@ class Production:
     def is_NT(self):
         return not self.is_T()
 
-    def __str__(self):
-        return "{0} ->{1} {2}".format(self.lhs, self.errors, self.rhs)
-
     def __repr__(self):
-        return "{0} ->{1} {2}::{3}:{4}::{5}::{6}".format(
+        return "{0} ->{1} {2}:{3}:{4}:{5}:{6}:{7}".format(
             self.lhs, self.errors, self.rhs,
-            self._type, self._correction, self.prefix(), self.suffix())
+            self._insert, self._replace, self._delete,
+            self.prefix(), self.suffix())
 
 
 class Grammar:
