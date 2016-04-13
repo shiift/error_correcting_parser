@@ -45,17 +45,10 @@ class Production:
     def to_tuple(self):
         return self.lhs, self.rhs, self.errors
 
-    def set_inserted(self):
+    def set_type(self, new_type, value=True):
         self._type = Production.INSERTED
-        self._correction = True
-
-    def set_replaced(self, replacement_value):
-        self._type = Production.REPLACED
-        self._correction = replacement_value
-
-    def set_deleted(self, deleted_values):
-        self._type = Production.DELETED
-        self._correction = deleted_values
+        self._correction = value
+        return self
 
     def inserted(self):
         if self._type == Production.INSERTED:
@@ -91,9 +84,7 @@ class Production:
         return not self.is_T()
 
     def __str__(self):
-        return "{0:>8} ->{1:>2} {2:>8}::{3:>10}:{4}::{5}::{6}".format(
-            self.lhs, self.errors, self.rhs,
-            self._type, self._correction, self.prefix(), self.suffix())
+        return "{0} ->{1} {2}".format(self.lhs, self.errors, self.rhs)
 
     def __repr__(self):
         return "{0} ->{1} {2}::{3}:{4}::{5}::{6}".format(
