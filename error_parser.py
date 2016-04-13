@@ -107,7 +107,6 @@ def run_parser(grammar, input_string):
     the number of errors between them
     """
     e, tree = error_correcting_parser(grammar, input_string)
-    print(tree)
     corrected_string = correct_string(tree)
     print("I : " + input_string)
     print("I': " + corrected_string)

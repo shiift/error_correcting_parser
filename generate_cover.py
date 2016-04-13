@@ -125,7 +125,7 @@ def eliminate_epsilon_productions(grammar):
                             '{0} ->{1} {2}'.format(
                                 lhs, top_production.errors, rhs_l
                             )
-                        ).set_prefix(top_production.deleted())
+                        ).set_suffix(top_production.deleted())
                     )
         grammar.remove_production(
             Production('{0} -> {1}'.format(top_lhs, Production.EPSILON))

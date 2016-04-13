@@ -1,7 +1,7 @@
 import re
 
 
-class Production:
+class Production(object):
     """Production conatins a left hand side, right hand side and number of
     errors for the production."""
     REGEX = r'->([0-9]+)?'
@@ -50,11 +50,11 @@ class Production:
         return self
 
     def __set_correction_vars(self, pieces):
-        self._insert = True if pieces[0] == 'True' else False
-        self._replace = pieces[1]
-        self._delete = pieces[2]
-        self._prefix = pieces[3]
-        self._suffix = pieces[4]
+        self._insert = True if pieces[0].strip() == 'True' else False
+        self._replace = pieces[1].strip()
+        self._delete = pieces[2].strip()
+        self._prefix = pieces[3].strip()
+        self._suffix = pieces[4].strip()
 
     def to_tuple(self):
         return self.lhs, self.rhs, self.errors
@@ -102,6 +102,12 @@ class Production:
             return True
         return False
 
+    # def __str__(self):
+    #     return "{0:>5} ->{1:>3} {2:>8}:\t{3}:\t{4}:\t{5}:\t{6}:\t{7}".format(
+    #         self.lhs, self.errors, self.rhs,
+    #         self._insert, self._replace, self._delete,
+    #         self.prefix(), self.suffix())
+
     def __repr__(self):
         return "{0} ->{1} {2}:{3}:{4}:{5}:{6}:{7}".format(
             self.lhs, self.errors, self.rhs,
@@ -109,7 +115,7 @@ class Production:
             self.prefix(), self.suffix())
 
 
-class Grammar:
+class Grammar(object):
     """Grammar conatins a list of productions, a list of terminals, a list of
     non-terminals, and the top level symbol character ('S' by default)"""
     TOP_SYMBOL = 'S'
@@ -141,7 +147,7 @@ class Grammar:
         return string[:-1]
 
 
-class Lookup:
+class Lookup(object):
     def __init__(self, productions, size):
         self.data = {}
         for key in productions:
@@ -173,7 +179,7 @@ class Lookup:
         return str(self.data.keys())
 
 
-class Matrix:
+class Matrix(object):
     def __init__(self, size):
         self.size = size
         self.data = [None] * size
@@ -199,7 +205,7 @@ class Matrix:
         return "".join(str_list)
 
 
-class Node:
+class Node(object):
     def __init__(self, i, j, production):
         self.i = i
         self.j = j
