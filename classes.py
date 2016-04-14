@@ -107,8 +107,10 @@ class Production(object):
     #         self.lhs, self.errors, self.rhs,
     #         self._insert, self._replace, self._delete,
     #         self.prefix(), self.suffix())
-
     def __repr__(self):
+        return "{0} ->{1} {2}".format(self.lhs, self.errors, self.rhs)
+
+    def __str__(self):
         return "{0} ->{1} {2}:{3}:{4}:{5}:{6}:{7}".format(
             self.lhs, self.errors, self.rhs,
             self._insert, self._replace, self._delete,
@@ -200,7 +202,9 @@ class Matrix(object):
         str_list = []
         for j in range(2, self.size+2):
             for i in range(1, j):
-                str_list.append("%s|" % self.get(i, j))
+                for _, tup in self.get(i, j).items():
+                    str_list.append("({0}, {1}) ".format(tup[0], tup[1]))
+                str_list.append("|")
             str_list.append("\n")
         return "".join(str_list)
 
