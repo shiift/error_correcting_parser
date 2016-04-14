@@ -5,13 +5,12 @@ class Production(object):
     """Production conatins a left hand side, right hand side and number of
     errors for the production."""
     REGEX = r'->([0-9]+)?'
+    EPSILON = '__e'
     H_SYM = '__H'
     I_SYM = '__I'
-    INSERTED = 0
-    REPLACED = 1
-    DELETED = 2
 
     def __init__(self, arg0, arg1=None, arg2=None):
+        self.exclude = False
         self._insert = False
         self._delete = ""
         self._replace = ""
@@ -59,13 +58,16 @@ class Production(object):
     def to_tuple(self):
         return self.lhs, self.rhs, self.errors
 
-    def set_type(self, new_type, value=True):
-        if new_type == self.INSERTED:
-            self._insert = value
-        elif new_type == self.REPLACED:
-            self._replace = value
-        elif new_type == self.DELETED:
-            self._delete = value
+    def set_deleted(self, value):
+        self._delete = value
+        return self
+
+    def set_replaced(self, value):
+        self._replace = value
+        return self
+
+    def set_inserted(self, value=True):
+        self._insert = value
         return self
 
     def inserted(self):
@@ -103,14 +105,9 @@ class Production(object):
         return False
 
     # def __str__(self):
-    #     return "{0:>5} ->{1:>3} {2:>8}:\t{3}:\t{4}:\t{5}:\t{6}:\t{7}".format(
-    #         self.lhs, self.errors, self.rhs,
-    #         self._insert, self._replace, self._delete,
-    #         self.prefix(), self.suffix())
-    def __repr__(self):
-        return "{0} ->{1} {2}".format(self.lhs, self.errors, self.rhs)
+    #     return "{0} ->{1} {2}".format(self.lhs, self.errors, self.rhs)
 
-    def __str__(self):
+    def __repr__(self):
         return "{0} ->{1} {2}:{3}:{4}:{5}:{6}:{7}".format(
             self.lhs, self.errors, self.rhs,
             self._insert, self._replace, self._delete,
@@ -127,8 +124,9 @@ class Grammar(object):
         self.terminals = {}
         self.nonterminals = {}
 
-    def add_production(self, string):
-        new_production = Production(string)
+    def add_production(self, new_production):
+        if isinstance(new_production, str):
+            new_production = Production(new_production)
         self.__add_to(self.productions, new_production)
         if new_production.is_T():
             self.__add_to(self.terminals, new_production)
