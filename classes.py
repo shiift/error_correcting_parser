@@ -10,7 +10,8 @@ class Production(object):
     I_SYM = '__I'
 
     def __init__(self, arg0, arg1=None, arg2=None):
-        self.exclude = False
+        self.exclude_nullable = False
+        self.exclude_units = False
         self._insert = False
         self._delete = ""
         self._replace = ""
@@ -104,8 +105,8 @@ class Production(object):
             return True
         return False
 
-    def __str__(self):
-        return "{0} ->{1} {2}".format(self.lhs, self.errors, self.rhs)
+    # def __str__(self):
+    #     return "{0} ->{1} {2}".format(self.lhs, self.errors, self.rhs)
 
     def __repr__(self):
         return "{0} ->{1} {2}:{3}:{4}:{5}:{6}:{7}".format(
