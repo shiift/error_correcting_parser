@@ -104,8 +104,8 @@ class Production(object):
             return True
         return False
 
-    # def __str__(self):
-    #     return "{0} ->{1} {2}".format(self.lhs, self.errors, self.rhs)
+    def __str__(self):
+        return "{0} ->{1} {2}".format(self.lhs, self.errors, self.rhs)
 
     def __repr__(self):
         return "{0} ->{1} {2}:{3}:{4}:{5}:{6}:{7}".format(

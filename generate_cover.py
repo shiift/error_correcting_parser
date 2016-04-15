@@ -137,12 +137,11 @@ def convert_nullable(grammar):
                         symbol,
                         nonterminal.errors +
                         grammar.nullable[rhs_c].errors,
-                        rhs_c)
+                        rhs_b)
                     ).set_suffix(grammar.nullable[rhs_c].deleted()))
 
 
 def add_nullable(grammar, symbol):
-    #TODO: Change this to use nonterminal_unit and nonterminal_nonunit
     if symbol in grammar.productions:
         for production in grammar.productions[symbol].values():
             if production.exclude:
@@ -184,24 +183,23 @@ def add_nullable(grammar, symbol):
     return False
 
 
-def eliminate_unit_productions(grammar):
-    for lhs, production_hash in grammar.nonterminal_units.items():
-        for rhs, production in production_hash:
-            convert_units(
-                grammar, grammar.nonterminal_units, lhs, rhs, production.errors
-            )
+# def eliminate_unit_productions(grammar):
+#     for lhs in grammar.nonterminal_units:
+#         for rhs, production in grammar.nonterminal_units[lhs]:
+#             convert_units(
+#                 grammar, grammar.nonterminal_units, lhs, rhs, production.errors
+#             )
 
 
 def convert_units(grammar, nt_units, sym_top, sym_current, errors):
-    # if sym_current in grammar.productions:
-    #     for production in list(grammar.productions[sym_current].values()):
-    #         grammar.try_add(
-    #             '{} ->{} {}'.format(
-    #                 sym_top,
-    #                 errors + production.errors,
-    #                 production.rhs))
-    # if sym_current in nt_units:
-    pass
+    if sym_current in grammar.productions:
+        for production in list(grammar.productions[sym_current].values()):
+            grammar.try_add(
+                '{} ->{} {}'.format(
+                    sym_top,
+                    errors + production.errors,
+                    production.rhs))
+    if sym_current in nt_units:
 
 
 def add_all_unit(grammar):
@@ -220,7 +218,7 @@ def main():
         grammar.add_production(line)
     grammar_p = construct_covering(grammar)
     eliminate_epsilon_productions(grammar_p)
-    eliminate_unit_productions(grammar_p)
+    # eliminate_unit_productions(grammar_p)
     print(grammar_p)
 
 if __name__ == '__main__':
