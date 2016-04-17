@@ -89,12 +89,12 @@ def correct_string(node):
     res = ""
     production = node.production
     if production.is_T():
-        if production.errors == 0:
-            res = production.rhs
-        elif production.inserted():
+        if production.inserted():
             res = ""
         elif production.replaced() != "":
             res = production.replaced()
+        else:
+            res = production.rhs
     elif production.is_NT():
         res = correct_string(node.left) + correct_string(node.right)
     res = production.prefix() + res + production.suffix()
@@ -108,6 +108,7 @@ def run_parser(grammar, input_string):
     """
     e, tree = error_correcting_parser(grammar, input_string)
     corrected_string = correct_string(tree)
+    print(tree)
     print("I : " + input_string)
     print("I': " + corrected_string)
     print("E : " + str(e))

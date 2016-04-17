@@ -1,537 +1,537 @@
-B02 ->0 BASE BASE
-B02 ->1 BASE __H
-B02 ->1 __H BASE
-B02 ->1 a
-B02 ->1 c
-B02 ->1 g
-B02 ->1 t
-B02 ->2 __H __I
-B03 ->0 B02 BASE
-B03 ->1 BASE BASE
-B03 ->2 BASE __H
-B03 ->2 __H BASE
-B03 ->2 a
-B03 ->2 c
-B03 ->2 g
-B03 ->2 t
-B03 ->3 __H __I
-B04 ->0 B03 BASE
-B04 ->1 B02 BASE
-B04 ->2 BASE BASE
-B04 ->3 BASE __H
-B04 ->3 __H BASE
-B04 ->3 a
-B04 ->3 c
-B04 ->3 g
-B04 ->3 t
-B04 ->4 __H __I
-B05 ->0 B04 BASE
-B05 ->1 B03 BASE
-B05 ->2 B02 BASE
-B05 ->3 BASE BASE
-B05 ->4 BASE __H
-B05 ->4 __H BASE
-B05 ->4 a
-B05 ->4 c
-B05 ->4 g
-B05 ->4 t
-B05 ->5 __H __I
-B06 ->0 B05 BASE
-B06 ->1 B04 BASE
-B06 ->2 B03 BASE
-B06 ->3 B02 BASE
-B06 ->4 BASE BASE
-B06 ->5 BASE __H
-B06 ->5 __H BASE
-B06 ->5 a
-B06 ->5 c
-B06 ->5 g
-B06 ->5 t
-B06 ->6 __H __I
-B07 ->0 B06 BASE
-B07 ->1 B05 BASE
-B07 ->2 B04 BASE
-B07 ->3 B03 BASE
-B07 ->4 B02 BASE
-B07 ->5 BASE BASE
-B07 ->6 BASE __H
-B07 ->6 __H BASE
-B07 ->6 a
-B07 ->6 c
-B07 ->6 g
-B07 ->6 t
-B07 ->7 __H __I
-B08 ->0 B07 BASE
-B08 ->1 B06 BASE
-B08 ->2 B05 BASE
-B08 ->3 B04 BASE
-B08 ->4 B03 BASE
-B08 ->5 B02 BASE
-B08 ->6 BASE BASE
-B08 ->7 BASE __H
-B08 ->7 __H BASE
-B08 ->7 a
-B08 ->7 c
-B08 ->7 g
-B08 ->7 t
-B08 ->8 __H __I
-B09 ->0 B08 BASE
-B09 ->1 B07 BASE
-B09 ->2 B06 BASE
-B09 ->3 B05 BASE
-B09 ->4 B04 BASE
-B09 ->5 B03 BASE
-B09 ->6 B02 BASE
-B09 ->7 BASE BASE
-B09 ->8 BASE __H
-B09 ->8 __H BASE
-B09 ->8 a
-B09 ->8 c
-B09 ->8 g
-B09 ->8 t
-B09 ->9 __H __I
-B10 ->0 B09 BASE
-B10 ->1 B08 BASE
-B10 ->10 __H __I
-B10 ->2 B07 BASE
-B10 ->3 B06 BASE
-B10 ->4 B05 BASE
-B10 ->5 B04 BASE
-B10 ->6 B03 BASE
-B10 ->7 B02 BASE
-B10 ->8 BASE BASE
-B10 ->9 BASE __H
-B10 ->9 __H BASE
-B10 ->9 a
-B10 ->9 c
-B10 ->9 g
-B10 ->9 t
-B11 ->0 B10 BASE
-B11 ->1 B09 BASE
-B11 ->10 BASE __H
-B11 ->10 __H BASE
-B11 ->10 a
-B11 ->10 c
-B11 ->10 g
-B11 ->10 t
-B11 ->11 __H __I
-B11 ->2 B08 BASE
-B11 ->3 B07 BASE
-B11 ->4 B06 BASE
-B11 ->5 B05 BASE
-B11 ->6 B04 BASE
-B11 ->7 B03 BASE
-B11 ->8 B02 BASE
-B11 ->9 BASE BASE
-B12 ->0 B11 BASE
-B12 ->1 B10 BASE
-B12 ->10 BASE BASE
-B12 ->11 BASE __H
-B12 ->11 __H BASE
-B12 ->11 a
-B12 ->11 c
-B12 ->11 g
-B12 ->11 t
-B12 ->12 __H __I
-B12 ->2 B09 BASE
-B12 ->3 B08 BASE
-B12 ->4 B07 BASE
-B12 ->5 B06 BASE
-B12 ->6 B05 BASE
-B12 ->7 B04 BASE
-B12 ->8 B03 BASE
-B12 ->9 B02 BASE
-B13 ->0 B12 BASE
-B13 ->1 B11 BASE
-B13 ->10 B02 BASE
-B13 ->11 BASE BASE
-B13 ->12 BASE __H
-B13 ->12 __H BASE
-B13 ->12 a
-B13 ->12 c
-B13 ->12 g
-B13 ->12 t
-B13 ->13 __H __I
-B13 ->2 B10 BASE
-B13 ->3 B09 BASE
-B13 ->4 B08 BASE
-B13 ->5 B07 BASE
-B13 ->6 B06 BASE
-B13 ->7 B05 BASE
-B13 ->8 B04 BASE
-B13 ->9 B03 BASE
-B14 ->0 B13 BASE
-B14 ->1 B12 BASE
-B14 ->10 B03 BASE
-B14 ->11 B02 BASE
-B14 ->12 BASE BASE
-B14 ->13 BASE __H
-B14 ->13 __H BASE
-B14 ->13 a
-B14 ->13 c
-B14 ->13 g
-B14 ->13 t
-B14 ->14 __H __I
-B14 ->2 B11 BASE
-B14 ->3 B10 BASE
-B14 ->4 B09 BASE
-B14 ->5 B08 BASE
-B14 ->6 B07 BASE
-B14 ->7 B06 BASE
-B14 ->8 B05 BASE
-B14 ->9 B04 BASE
-B15 ->0 B14 BASE
-B15 ->1 B13 BASE
-B15 ->10 B04 BASE
-B15 ->11 B03 BASE
-B15 ->12 B02 BASE
-B15 ->13 BASE BASE
-B15 ->14 BASE __H
-B15 ->14 __H BASE
-B15 ->14 a
-B15 ->14 c
-B15 ->14 g
-B15 ->14 t
-B15 ->15 __H __I
-B15 ->2 B12 BASE
-B15 ->3 B11 BASE
-B15 ->4 B10 BASE
-B15 ->5 B09 BASE
-B15 ->6 B08 BASE
-B15 ->7 B07 BASE
-B15 ->8 B06 BASE
-B15 ->9 B05 BASE
-B16 ->0 B15 BASE
-B16 ->1 B14 BASE
-B16 ->10 B05 BASE
-B16 ->11 B04 BASE
-B16 ->12 B03 BASE
-B16 ->13 B02 BASE
-B16 ->14 BASE BASE
-B16 ->15 BASE __H
-B16 ->15 __H BASE
-B16 ->15 a
-B16 ->15 c
-B16 ->15 g
-B16 ->15 t
-B16 ->16 __H __I
-B16 ->2 B13 BASE
-B16 ->3 B12 BASE
-B16 ->4 B11 BASE
-B16 ->5 B10 BASE
-B16 ->6 B09 BASE
-B16 ->7 B08 BASE
-B16 ->8 B07 BASE
-B16 ->9 B06 BASE
-B17 ->0 B16 BASE
-B17 ->1 B15 BASE
-B17 ->10 B06 BASE
-B17 ->11 B05 BASE
-B17 ->12 B04 BASE
-B17 ->13 B03 BASE
-B17 ->14 B02 BASE
-B17 ->15 BASE BASE
-B17 ->16 BASE __H
-B17 ->16 __H BASE
-B17 ->16 a
-B17 ->16 c
-B17 ->16 g
-B17 ->16 t
-B17 ->17 __H __I
-B17 ->2 B14 BASE
-B17 ->3 B13 BASE
-B17 ->4 B12 BASE
-B17 ->5 B11 BASE
-B17 ->6 B10 BASE
-B17 ->7 B09 BASE
-B17 ->8 B08 BASE
-B17 ->9 B07 BASE
-BA ->0 BA __H
-BA ->0 __H BA
-BA ->0 a
-BA ->1 __H __I
-BA ->1 c
-BA ->1 g
-BA ->1 t
-BASE ->0 BASE __H
-BASE ->0 __H BASE
-BASE ->0 a
-BASE ->0 c
-BASE ->0 g
-BASE ->0 t
-BASE ->1 __H __I
-BC ->0 BC __H
-BC ->0 __H BC
-BC ->0 c
-BC ->1 __H __I
-BC ->1 a
-BC ->1 g
-BC ->1 t
-BG ->0 BG __H
-BG ->0 __H BG
-BG ->0 g
-BG ->1 __H __I
-BG ->1 a
-BG ->1 c
-BG ->1 t
-BT ->0 BT __H
-BT ->0 __H BT
-BT ->0 t
-BT ->1 __H __I
-BT ->1 a
-BT ->1 c
-BT ->1 g
-P1 ->0 B14 TTGACA
-P1 ->10 B09 BASE
-P1 ->11 B08 BASE
-P1 ->12 B07 BASE
-P1 ->13 B06 BASE
-P1 ->14 B05 BASE
-P1 ->14 TTGACA5 BA
-P1 ->15 B04 BASE
-P1 ->15 TTGACA4 BC
-P1 ->16 B03 BASE
-P1 ->16 TTGACA3 BA
-P1 ->17 B02 BASE
-P1 ->17 TTGACA2 BG
-P1 ->18 BASE BASE
-P1 ->18 BT BT
-P1 ->19 BA __H
-P1 ->19 BASE __H
-P1 ->19 BC __H
-P1 ->19 BG __H
-P1 ->19 BT __H
-P1 ->19 __H BA
-P1 ->19 __H BASE
-P1 ->19 __H BC
-P1 ->19 __H BG
-P1 ->19 __H BT
-P1 ->19 a
-P1 ->19 c
-P1 ->19 g
-P1 ->19 t
-P1 ->20 __H __I
-P1 ->6 B13 BASE
-P1 ->7 B12 BASE
-P1 ->8 B11 BASE
-P1 ->9 B10 BASE
-P2 ->0 P1 B17
-P2 ->17 B14 TTGACA
-P2 ->20 B16 BASE
-P2 ->21 B15 BASE
-P2 ->22 B14 BASE
-P2 ->23 B13 BASE
-P2 ->24 B12 BASE
-P2 ->25 B11 BASE
-P2 ->26 B10 BASE
-P2 ->27 B09 BASE
-P2 ->28 B08 BASE
-P2 ->29 B07 BASE
-P2 ->30 B06 BASE
-P2 ->31 B05 BASE
-P2 ->31 TTGACA5 BA
-P2 ->32 B04 BASE
-P2 ->32 TTGACA4 BC
-P2 ->33 B03 BASE
-P2 ->33 TTGACA3 BA
-P2 ->34 B02 BASE
-P2 ->34 TTGACA2 BG
-P2 ->35 BASE BASE
-P2 ->35 BT BT
-P2 ->36 BA __H
-P2 ->36 BASE __H
-P2 ->36 BC __H
-P2 ->36 BG __H
-P2 ->36 BT __H
-P2 ->36 __H BA
-P2 ->36 __H BASE
-P2 ->36 __H BC
-P2 ->36 __H BG
-P2 ->36 __H BT
-P2 ->36 a
-P2 ->36 c
-P2 ->36 g
-P2 ->36 t
-P2 ->37 __H __I
-S ->0 P2 TATA
-S ->0 S BASE
-S ->23 B14 TTGACA
-S ->26 B16 BASE
-S ->27 B15 BASE
-S ->28 B14 BASE
-S ->29 B13 BASE
-S ->30 B12 BASE
-S ->31 B11 BASE
-S ->32 B10 BASE
-S ->33 B09 BASE
-S ->34 B08 BASE
-S ->35 B07 BASE
-S ->36 B06 BASE
-S ->37 B05 BASE
-S ->37 TATA5 BT
-S ->37 TTGACA5 BA
-S ->38 B04 BASE
-S ->38 TATA4 BA
-S ->38 TTGACA4 BC
-S ->39 B03 BASE
-S ->39 TATA3 BA
-S ->39 TTGACA3 BA
-S ->40 B02 BASE
-S ->40 TATA2 BT
-S ->40 TTGACA2 BG
-S ->41 BASE BASE
-S ->41 BT BA
-S ->41 BT BT
-S ->42 BA __H
-S ->42 BASE __H
-S ->42 BC __H
-S ->42 BG __H
-S ->42 BT __H
-S ->42 __H BA
-S ->42 __H BASE
-S ->42 __H BC
-S ->42 __H BG
-S ->42 __H BT
-S ->42 a
-S ->42 c
-S ->42 g
-S ->42 t
-S ->43 __H __I
-S ->6 P1 B17
-TATA ->0 TATA5 BT
-TATA ->1 TATA4 BA
-TATA ->2 TATA3 BA
-TATA ->3 TATA2 BT
-TATA ->4 BT BA
-TATA ->5 BA __H
-TATA ->5 BT __H
-TATA ->5 __H BA
-TATA ->5 __H BT
-TATA ->5 a
-TATA ->5 t
-TATA ->6 __H __I
-TATA ->6 c
-TATA ->6 g
-TATA2 ->0 BT BA
-TATA2 ->1 BA __H
-TATA2 ->1 BT __H
-TATA2 ->1 __H BA
-TATA2 ->1 __H BT
-TATA2 ->1 a
-TATA2 ->1 t
-TATA2 ->2 __H __I
-TATA2 ->2 c
-TATA2 ->2 g
-TATA3 ->0 TATA2 BT
-TATA3 ->1 BT BA
-TATA3 ->2 BA __H
-TATA3 ->2 BT __H
-TATA3 ->2 __H BA
-TATA3 ->2 __H BT
-TATA3 ->2 a
-TATA3 ->2 t
-TATA3 ->3 __H __I
-TATA3 ->3 c
-TATA3 ->3 g
-TATA4 ->0 TATA3 BA
-TATA4 ->1 TATA2 BT
-TATA4 ->2 BT BA
-TATA4 ->3 BA __H
-TATA4 ->3 BT __H
-TATA4 ->3 __H BA
-TATA4 ->3 __H BT
-TATA4 ->3 a
-TATA4 ->3 t
-TATA4 ->4 __H __I
-TATA4 ->4 c
-TATA4 ->4 g
-TATA5 ->0 TATA4 BA
-TATA5 ->1 TATA3 BA
-TATA5 ->2 TATA2 BT
-TATA5 ->3 BT BA
-TATA5 ->4 BA __H
-TATA5 ->4 BT __H
-TATA5 ->4 __H BA
-TATA5 ->4 __H BT
-TATA5 ->4 a
-TATA5 ->4 t
-TATA5 ->5 __H __I
-TATA5 ->5 c
-TATA5 ->5 g
-TTGACA ->0 TTGACA5 BA
-TTGACA ->1 TTGACA4 BC
-TTGACA ->2 TTGACA3 BA
-TTGACA ->3 TTGACA2 BG
-TTGACA ->4 BT BT
-TTGACA ->5 BA __H
-TTGACA ->5 BC __H
-TTGACA ->5 BG __H
-TTGACA ->5 BT __H
-TTGACA ->5 __H BA
-TTGACA ->5 __H BC
-TTGACA ->5 __H BG
-TTGACA ->5 __H BT
-TTGACA ->5 a
-TTGACA ->5 c
-TTGACA ->5 g
-TTGACA ->5 t
-TTGACA ->6 __H __I
-TTGACA2 ->0 BT BT
-TTGACA2 ->1 BT __H
-TTGACA2 ->1 __H BT
-TTGACA2 ->1 t
-TTGACA2 ->2 __H __I
-TTGACA2 ->2 a
-TTGACA2 ->2 c
-TTGACA2 ->2 g
-TTGACA3 ->0 TTGACA2 BG
-TTGACA3 ->1 BT BT
-TTGACA3 ->2 BG __H
-TTGACA3 ->2 BT __H
-TTGACA3 ->2 __H BG
-TTGACA3 ->2 __H BT
-TTGACA3 ->2 g
-TTGACA3 ->2 t
-TTGACA3 ->3 __H __I
-TTGACA3 ->3 a
-TTGACA3 ->3 c
-TTGACA4 ->0 TTGACA3 BA
-TTGACA4 ->1 TTGACA2 BG
-TTGACA4 ->2 BT BT
-TTGACA4 ->3 BA __H
-TTGACA4 ->3 BG __H
-TTGACA4 ->3 BT __H
-TTGACA4 ->3 __H BA
-TTGACA4 ->3 __H BG
-TTGACA4 ->3 __H BT
-TTGACA4 ->3 a
-TTGACA4 ->3 g
-TTGACA4 ->3 t
-TTGACA4 ->4 __H __I
-TTGACA4 ->4 c
-TTGACA5 ->0 TTGACA4 BC
-TTGACA5 ->1 TTGACA3 BA
-TTGACA5 ->2 TTGACA2 BG
-TTGACA5 ->3 BT BT
-TTGACA5 ->4 BA __H
-TTGACA5 ->4 BC __H
-TTGACA5 ->4 BG __H
-TTGACA5 ->4 BT __H
-TTGACA5 ->4 __H BA
-TTGACA5 ->4 __H BC
-TTGACA5 ->4 __H BG
-TTGACA5 ->4 __H BT
-TTGACA5 ->4 a
-TTGACA5 ->4 c
-TTGACA5 ->4 g
-TTGACA5 ->4 t
-TTGACA5 ->5 __H __I
-__H ->0 __H __I
-__H ->1 a
-__H ->1 c
-__H ->1 g
-__H ->1 t
-__I ->1 a
-__I ->1 c
-__I ->1 g
-__I ->1 t
+__H ->0 __H __I:False::::
+__H ->1 a:True::::
+__H ->1 c:True::::
+__H ->1 g:True::::
+__H ->1 t:True::::
+__I ->1 a:True::::
+__I ->1 c:True::::
+__I ->1 g:True::::
+__I ->1 t:True::::
+B02 ->0 BASE BASE:False::::
+B02 ->1 __H BASE:False:::a:
+B02 ->1 a:False:::a:
+B02 ->1 BASE __H:False:::a:
+B02 ->1 c:False:::a:
+B02 ->1 g:False:::a:
+B02 ->1 t:False:::a:
+B02 ->2 __H __I:False:::aa:
+B03 ->0 B02 BASE:False::::
+B03 ->1 BASE BASE:False::::a
+B03 ->2 __H BASE:False:::a:a
+B03 ->2 a:False:::a:a
+B03 ->2 BASE __H:False:::a:a
+B03 ->2 c:False:::a:a
+B03 ->2 g:False:::a:a
+B03 ->2 t:False:::a:a
+B03 ->3 __H __I:False:::aa:a
+B04 ->0 B03 BASE:False::::
+B04 ->1 B02 BASE:False::::a
+B04 ->2 BASE BASE:False::::aa
+B04 ->3 __H BASE:False:::aaa:
+B04 ->3 a:False:::aaa:
+B04 ->3 BASE __H:False:::aaa:
+B04 ->3 c:False:::aaa:
+B04 ->3 g:False:::aaa:
+B04 ->3 t:False:::aaa:
+B04 ->4 __H __I:False:::aaaa:
+B05 ->0 B04 BASE:False::::
+B05 ->1 B03 BASE:False::::a
+B05 ->2 B02 BASE:False::::aa
+B05 ->3 BASE BASE:False::::aaa
+B05 ->4 __H BASE:False:::aaa:a
+B05 ->4 a:False:::aaa:a
+B05 ->4 BASE __H:False:::aaa:a
+B05 ->4 c:False:::aaa:a
+B05 ->4 g:False:::aaa:a
+B05 ->4 t:False:::aaa:a
+B05 ->5 __H __I:False:::aaaa:a
+B06 ->0 B05 BASE:False::::
+B06 ->1 B04 BASE:False::::a
+B06 ->2 B03 BASE:False::::aa
+B06 ->3 B02 BASE:False::::aaa
+B06 ->4 BASE BASE:False::::aaaa
+B06 ->5 __H BASE:False:::aaaaa:
+B06 ->5 a:False:::aaaaa:
+B06 ->5 BASE __H:False:::aaaaa:
+B06 ->5 c:False:::aaaaa:
+B06 ->5 g:False:::aaaaa:
+B06 ->5 t:False:::aaaaa:
+B06 ->6 __H __I:False:::aaaaaa:
+B07 ->0 B06 BASE:False::::
+B07 ->1 B05 BASE:False::::a
+B07 ->2 B04 BASE:False::::aa
+B07 ->3 B03 BASE:False::::aaa
+B07 ->4 B02 BASE:False::::aaaa
+B07 ->5 BASE BASE:False::::aaaaa
+B07 ->6 __H BASE:False:::aaaaa:a
+B07 ->6 a:False:::aaaaa:a
+B07 ->6 BASE __H:False:::aaaaa:a
+B07 ->6 c:False:::aaaaa:a
+B07 ->6 g:False:::aaaaa:a
+B07 ->6 t:False:::aaaaa:a
+B07 ->7 __H __I:False:::aaaaaa:a
+B08 ->0 B07 BASE:False::::
+B08 ->1 B06 BASE:False::::a
+B08 ->2 B05 BASE:False::::aa
+B08 ->3 B04 BASE:False::::aaa
+B08 ->4 B03 BASE:False::::aaaa
+B08 ->5 B02 BASE:False::::aaaaa
+B08 ->6 BASE BASE:False::::aaaaaa
+B08 ->7 __H BASE:False:::aaaaaaa:
+B08 ->7 a:False:::aaaaaaa:
+B08 ->7 BASE __H:False:::aaaaaaa:
+B08 ->7 c:False:::aaaaaaa:
+B08 ->7 g:False:::aaaaaaa:
+B08 ->7 t:False:::aaaaaaa:
+B08 ->8 __H __I:False:::aaaaaaaa:
+B09 ->0 B08 BASE:False::::
+B09 ->1 B07 BASE:False::::a
+B09 ->2 B06 BASE:False::::aa
+B09 ->3 B05 BASE:False::::aaa
+B09 ->4 B04 BASE:False::::aaaa
+B09 ->5 B03 BASE:False::::aaaaa
+B09 ->6 B02 BASE:False::::aaaaaa
+B09 ->7 BASE BASE:False::::aaaaaaa
+B09 ->8 __H BASE:False:::aaaaaaa:a
+B09 ->8 a:False:::aaaaaaa:a
+B09 ->8 BASE __H:False:::aaaaaaa:a
+B09 ->8 c:False:::aaaaaaa:a
+B09 ->8 g:False:::aaaaaaa:a
+B09 ->8 t:False:::aaaaaaa:a
+B09 ->9 __H __I:False:::aaaaaaaa:a
+B10 ->0 B09 BASE:False::::
+B10 ->1 B08 BASE:False::::a
+B10 ->10 __H __I:False:::aaaaaaaaaa:
+B10 ->2 B07 BASE:False::::aa
+B10 ->3 B06 BASE:False::::aaa
+B10 ->4 B05 BASE:False::::aaaa
+B10 ->5 B04 BASE:False::::aaaaa
+B10 ->6 B03 BASE:False::::aaaaaa
+B10 ->7 B02 BASE:False::::aaaaaaa
+B10 ->8 BASE BASE:False::::aaaaaaaa
+B10 ->9 __H BASE:False:::aaaaaaaaa:
+B10 ->9 a:False:::aaaaaaaaa:
+B10 ->9 BASE __H:False:::aaaaaaaaa:
+B10 ->9 c:False:::aaaaaaaaa:
+B10 ->9 g:False:::aaaaaaaaa:
+B10 ->9 t:False:::aaaaaaaaa:
+B11 ->0 B10 BASE:False::::
+B11 ->1 B09 BASE:False::::a
+B11 ->10 __H BASE:False:::aaaaaaaaaa:
+B11 ->10 a:False:::aaaaaaaaaa:
+B11 ->10 BASE __H:False:::aaaaaaaaaa:
+B11 ->10 c:False:::aaaaaaaaaa:
+B11 ->10 g:False:::aaaaaaaaaa:
+B11 ->10 t:False:::aaaaaaaaaa:
+B11 ->11 __H __I:False:::aaaaaaaaaaa:
+B11 ->2 B08 BASE:False::::aa
+B11 ->3 B07 BASE:False::::aaa
+B11 ->4 B06 BASE:False::::aaaa
+B11 ->5 B05 BASE:False::::aaaaa
+B11 ->6 B04 BASE:False::::aaaaaa
+B11 ->7 B03 BASE:False::::aaaaaaa
+B11 ->8 B02 BASE:False::::aaaaaaaa
+B11 ->9 BASE BASE:False::::aaaaaaaaa
+B12 ->0 B11 BASE:False::::
+B12 ->1 B10 BASE:False::::a
+B12 ->10 BASE BASE:False::::aaaaaaaaaa
+B12 ->11 __H BASE:False:::aaaaaaaaaaa:
+B12 ->11 a:False:::aaaaaaaaaaa:
+B12 ->11 BASE __H:False:::aaaaaaaaaaa:
+B12 ->11 c:False:::aaaaaaaaaaa:
+B12 ->11 g:False:::aaaaaaaaaaa:
+B12 ->11 t:False:::aaaaaaaaaaa:
+B12 ->12 __H __I:False:::aaaaaaaaaaaa:
+B12 ->2 B09 BASE:False::::aa
+B12 ->3 B08 BASE:False::::aaa
+B12 ->4 B07 BASE:False::::aaaa
+B12 ->5 B06 BASE:False::::aaaaa
+B12 ->6 B05 BASE:False::::aaaaaa
+B12 ->7 B04 BASE:False::::aaaaaaa
+B12 ->8 B03 BASE:False::::aaaaaaaa
+B12 ->9 B02 BASE:False::::aaaaaaaaa
+B13 ->0 B12 BASE:False::::
+B13 ->1 B11 BASE:False::::a
+B13 ->10 B02 BASE:False::::aaaaaaaaaa
+B13 ->11 BASE BASE:False::::aaaaaaaaaaa
+B13 ->12 __H BASE:False:::aaaaaaaaaaaa:
+B13 ->12 a:False:::aaaaaaaaaaaa:
+B13 ->12 BASE __H:False:::aaaaaaaaaaaa:
+B13 ->12 c:False:::aaaaaaaaaaaa:
+B13 ->12 g:False:::aaaaaaaaaaaa:
+B13 ->12 t:False:::aaaaaaaaaaaa:
+B13 ->13 __H __I:False:::aaaaaaaaaaaaa:
+B13 ->2 B10 BASE:False::::aa
+B13 ->3 B09 BASE:False::::aaa
+B13 ->4 B08 BASE:False::::aaaa
+B13 ->5 B07 BASE:False::::aaaaa
+B13 ->6 B06 BASE:False::::aaaaaa
+B13 ->7 B05 BASE:False::::aaaaaaa
+B13 ->8 B04 BASE:False::::aaaaaaaa
+B13 ->9 B03 BASE:False::::aaaaaaaaa
+B14 ->0 B13 BASE:False::::
+B14 ->1 B12 BASE:False::::a
+B14 ->10 B03 BASE:False::::aaaaaaaaaa
+B14 ->11 B02 BASE:False::::aaaaaaaaaaa
+B14 ->12 BASE BASE:False::::aaaaaaaaaaaa
+B14 ->13 __H BASE:False:::aaaaaaaaaaaa:a
+B14 ->13 a:False:::aaaaaaaaaaaa:a
+B14 ->13 BASE __H:False:::aaaaaaaaaaaa:a
+B14 ->13 c:False:::aaaaaaaaaaaa:a
+B14 ->13 g:False:::aaaaaaaaaaaa:a
+B14 ->13 t:False:::aaaaaaaaaaaa:a
+B14 ->14 __H __I:False:::aaaaaaaaaaaaa:a
+B14 ->2 B11 BASE:False::::aa
+B14 ->3 B10 BASE:False::::aaa
+B14 ->4 B09 BASE:False::::aaaa
+B14 ->5 B08 BASE:False::::aaaaa
+B14 ->6 B07 BASE:False::::aaaaaa
+B14 ->7 B06 BASE:False::::aaaaaaa
+B14 ->8 B05 BASE:False::::aaaaaaaa
+B14 ->9 B04 BASE:False::::aaaaaaaaa
+B15 ->0 B14 BASE:False::::
+B15 ->1 B13 BASE:False::::a
+B15 ->10 B04 BASE:False::::aaaaaaaaaa
+B15 ->11 B03 BASE:False::::aaaaaaaaaaa
+B15 ->12 B02 BASE:False::::aaaaaaaaaaaa
+B15 ->13 BASE BASE:False::::aaaaaaaaaaaaa
+B15 ->14 __H BASE:False:::aaaaaaaaaaaaaa:
+B15 ->14 a:False:::aaaaaaaaaaaaaa:
+B15 ->14 BASE __H:False:::aaaaaaaaaaaaaa:
+B15 ->14 c:False:::aaaaaaaaaaaaaa:
+B15 ->14 g:False:::aaaaaaaaaaaaaa:
+B15 ->14 t:False:::aaaaaaaaaaaaaa:
+B15 ->15 __H __I:False:::aaaaaaaaaaaaaaa:
+B15 ->2 B12 BASE:False::::aa
+B15 ->3 B11 BASE:False::::aaa
+B15 ->4 B10 BASE:False::::aaaa
+B15 ->5 B09 BASE:False::::aaaaa
+B15 ->6 B08 BASE:False::::aaaaaa
+B15 ->7 B07 BASE:False::::aaaaaaa
+B15 ->8 B06 BASE:False::::aaaaaaaa
+B15 ->9 B05 BASE:False::::aaaaaaaaa
+B16 ->0 B15 BASE:False::::
+B16 ->1 B14 BASE:False::::a
+B16 ->10 B05 BASE:False::::aaaaaaaaaa
+B16 ->11 B04 BASE:False::::aaaaaaaaaaa
+B16 ->12 B03 BASE:False::::aaaaaaaaaaaa
+B16 ->13 B02 BASE:False::::aaaaaaaaaaaaa
+B16 ->14 BASE BASE:False::::aaaaaaaaaaaaaa
+B16 ->15 __H BASE:False:::aaaaaaaaaaaaaa:a
+B16 ->15 a:False:::aaaaaaaaaaaaaa:a
+B16 ->15 BASE __H:False:::aaaaaaaaaaaaaa:a
+B16 ->15 c:False:::aaaaaaaaaaaaaa:a
+B16 ->15 g:False:::aaaaaaaaaaaaaa:a
+B16 ->15 t:False:::aaaaaaaaaaaaaa:a
+B16 ->16 __H __I:False:::aaaaaaaaaaaaaaa:a
+B16 ->2 B13 BASE:False::::aa
+B16 ->3 B12 BASE:False::::aaa
+B16 ->4 B11 BASE:False::::aaaa
+B16 ->5 B10 BASE:False::::aaaaa
+B16 ->6 B09 BASE:False::::aaaaaa
+B16 ->7 B08 BASE:False::::aaaaaaa
+B16 ->8 B07 BASE:False::::aaaaaaaa
+B16 ->9 B06 BASE:False::::aaaaaaaaa
+B17 ->0 B16 BASE:False::::
+B17 ->1 B15 BASE:False::::a
+B17 ->10 B06 BASE:False::::aaaaaaaaaa
+B17 ->11 B05 BASE:False::::aaaaaaaaaaa
+B17 ->12 B04 BASE:False::::aaaaaaaaaaaa
+B17 ->13 B03 BASE:False::::aaaaaaaaaaaaa
+B17 ->14 B02 BASE:False::::aaaaaaaaaaaaaa
+B17 ->15 BASE BASE:False::::aaaaaaaaaaaaaaa
+B17 ->16 __H BASE:False:::aaaaaaaaaaaaaaaa:
+B17 ->16 a:False:::aaaaaaaaaaaaaaaa:
+B17 ->16 BASE __H:False:::aaaaaaaaaaaaaaaa:
+B17 ->16 c:False:::aaaaaaaaaaaaaaaa:
+B17 ->16 g:False:::aaaaaaaaaaaaaaaa:
+B17 ->16 t:False:::aaaaaaaaaaaaaaaa:
+B17 ->17 __H __I:False:::aaaaaaaaaaaaaaaaa:
+B17 ->2 B14 BASE:False::::aa
+B17 ->3 B13 BASE:False::::aaa
+B17 ->4 B12 BASE:False::::aaaa
+B17 ->5 B11 BASE:False::::aaaaa
+B17 ->6 B10 BASE:False::::aaaaaa
+B17 ->7 B09 BASE:False::::aaaaaaa
+B17 ->8 B08 BASE:False::::aaaaaaaa
+B17 ->9 B07 BASE:False::::aaaaaaaaa
+BA ->0 __H BA:False::::
+BA ->0 a:False::::
+BA ->0 BA __H:False::::
+BA ->1 __H __I:False:::a:
+BA ->1 c:False:a:::
+BA ->1 g:False:a:::
+BA ->1 t:False:a:::
+BASE ->0 __H BASE:False::::
+BASE ->0 a:False::::
+BASE ->0 BASE __H:False::::
+BASE ->0 c:False::::
+BASE ->0 g:False::::
+BASE ->0 t:False::::
+BASE ->1 __H __I:False:::a:
+BC ->0 __H BC:False::::
+BC ->0 BC __H:False::::
+BC ->0 c:False::::
+BC ->1 __H __I:False:::c:
+BC ->1 a:False:c:::
+BC ->1 g:False:c:::
+BC ->1 t:False:c:::
+BG ->0 __H BG:False::::
+BG ->0 BG __H:False::::
+BG ->0 g:False::::
+BG ->1 __H __I:False::::g
+BG ->1 a:False:g:::
+BG ->1 c:False:g:::
+BG ->1 t:False:g:::
+BT ->0 __H BT:False::::
+BT ->0 BT __H:False::::
+BT ->0 t:False::::
+BT ->1 __H __I:False:::t:
+BT ->1 a:False:t:::
+BT ->1 c:False:t:::
+BT ->1 g:False:t:::
+P1 ->0 B14 TTGACA:False::::
+P1 ->10 B09 BASE:False::::aaaattgaca
+P1 ->11 B08 BASE:False::::aaaaattgaca
+P1 ->12 B07 BASE:False::::aaaaaattgaca
+P1 ->13 B06 BASE:False::::aaaaaaattgaca
+P1 ->14 B05 BASE:False::::aaaaaaaattgaca
+P1 ->14 TTGACA5 BA:False:::aaaaaaaaaaaaaa:
+P1 ->15 B04 BASE:False::::aaaaaaaaattgaca
+P1 ->15 TTGACA4 BC:False:::aaaaaaaaaaaaaa:a
+P1 ->16 B03 BASE:False::::aaaaaaaaaattgaca
+P1 ->16 TTGACA3 BA:False:::aaaaaaaaaaaaaa:ca
+P1 ->17 B02 BASE:False::::aaaaaaaaaaattgaca
+P1 ->17 TTGACA2 BG:False:::aaaaaaaaaaaaaa:aca
+P1 ->18 BASE BASE:False::::aaaaaaaaaaaattgaca
+P1 ->18 BT BT:False:::aaaaaaaaaaaaaa:gaca
+P1 ->19 __H BA:False:::aaaaaaaaaaaaaattgac:
+P1 ->19 __H BASE:False:::aaaaaaaaaaaa:attgaca
+P1 ->19 __H BC:False:::aaaaaaaaaaaaaattga:a
+P1 ->19 __H BG:False:::aaaaaaaaaaaaaatt:aca
+P1 ->19 __H BT:False:::aaaaaaaaaaaaaat:gaca
+P1 ->19 a:False:::aaaaaaaaaaaaaattgac:
+P1 ->19 BA __H:False:::aaaaaaaaaaaaaattgac:
+P1 ->19 BASE __H:False:::aaaaaaaaaaaa:attgaca
+P1 ->19 BC __H:False:::aaaaaaaaaaaaaattga:a
+P1 ->19 BG __H:False:::aaaaaaaaaaaaaatt:aca
+P1 ->19 BT __H:False:::aaaaaaaaaaaaaat:gaca
+P1 ->19 c:False:::aaaaaaaaaaaaaattga:a
+P1 ->19 g:False:::aaaaaaaaaaaaaatt:aca
+P1 ->19 t:False:::aaaaaaaaaaaaaat:gaca
+P1 ->20 __H __I:False:::aaaaaaaaaaaaaattgaca:
+P1 ->6 B13 BASE:False::::ttgaca
+P1 ->7 B12 BASE:False::::attgaca
+P1 ->8 B11 BASE:False::::aattgaca
+P1 ->9 B10 BASE:False::::aaattgaca
+P2 ->0 P1 B17:False::::
+P2 ->17 B14 TTGACA:False::::aaaaaaaaaaaaaaaaa
+P2 ->20 B16 BASE:False:::aaaaaaaaaaaaaattgaca:
+P2 ->21 B15 BASE:False:::aaaaaaaaaaaaaattgaca:a
+P2 ->22 B14 BASE:False:::aaaaaaaaaaaaaattgaca:aa
+P2 ->23 B13 BASE:False::::ttgacaaaaaaaaaaaaaaaaaa
+P2 ->24 B12 BASE:False::::attgacaaaaaaaaaaaaaaaaaa
+P2 ->25 B11 BASE:False::::aattgacaaaaaaaaaaaaaaaaaa
+P2 ->26 B10 BASE:False::::aaattgacaaaaaaaaaaaaaaaaaa
+P2 ->27 B09 BASE:False::::aaaattgacaaaaaaaaaaaaaaaaaa
+P2 ->28 B08 BASE:False::::aaaaattgacaaaaaaaaaaaaaaaaaa
+P2 ->29 B07 BASE:False::::aaaaaattgacaaaaaaaaaaaaaaaaaa
+P2 ->30 B06 BASE:False::::aaaaaaattgacaaaaaaaaaaaaaaaaaa
+P2 ->31 B05 BASE:False::::aaaaaaaattgacaaaaaaaaaaaaaaaaaa
+P2 ->31 TTGACA5 BA:False:::aaaaaaaaaaaaaa:aaaaaaaaaaaaaaaaa
+P2 ->32 B04 BASE:False::::aaaaaaaaattgacaaaaaaaaaaaaaaaaaa
+P2 ->32 TTGACA4 BC:False:::aaaaaaaaaaaaaa:aaaaaaaaaaaaaaaaaa
+P2 ->33 B03 BASE:False::::aaaaaaaaaattgacaaaaaaaaaaaaaaaaaa
+P2 ->33 TTGACA3 BA:False:::aaaaaaaaaaaaaa:caaaaaaaaaaaaaaaaaa
+P2 ->34 B02 BASE:False::::aaaaaaaaaaattgacaaaaaaaaaaaaaaaaaa
+P2 ->34 TTGACA2 BG:False:::aaaaaaaaaaaaaa:acaaaaaaaaaaaaaaaaaa
+P2 ->35 BASE BASE:False::::aaaaaaaaaaaattgacaaaaaaaaaaaaaaaaaa
+P2 ->35 BT BT:False:::aaaaaaaaaaaaaa:gacaaaaaaaaaaaaaaaaaa
+P2 ->36 __H BA:False:::aaaaaaaaaaaaaattgac:aaaaaaaaaaaaaaaaa
+P2 ->36 __H BASE:False:::aaaaaaaaaaaa:attgacaaaaaaaaaaaaaaaaaa
+P2 ->36 __H BC:False:::aaaaaaaaaaaaaattga:aaaaaaaaaaaaaaaaaa
+P2 ->36 __H BG:False:::aaaaaaaaaaaaaatt:acaaaaaaaaaaaaaaaaaa
+P2 ->36 __H BT:False:::aaaaaaaaaaaaaat:gacaaaaaaaaaaaaaaaaaa
+P2 ->36 a:False:::aaaaaaaaaaaaaattgac:aaaaaaaaaaaaaaaaa
+P2 ->36 BA __H:False:::aaaaaaaaaaaaaattgac:aaaaaaaaaaaaaaaaa
+P2 ->36 BASE __H:False:::aaaaaaaaaaaa:attgacaaaaaaaaaaaaaaaaaa
+P2 ->36 BC __H:False:::aaaaaaaaaaaaaattga:aaaaaaaaaaaaaaaaaa
+P2 ->36 BG __H:False:::aaaaaaaaaaaaaatt:acaaaaaaaaaaaaaaaaaa
+P2 ->36 BT __H:False:::aaaaaaaaaaaaaat:gacaaaaaaaaaaaaaaaaaa
+P2 ->36 c:False:::aaaaaaaaaaaaaattga:aaaaaaaaaaaaaaaaaa
+P2 ->36 g:False:::aaaaaaaaaaaaaatt:acaaaaaaaaaaaaaaaaaa
+P2 ->36 t:False:::aaaaaaaaaaaaaat:gacaaaaaaaaaaaaaaaaaa
+P2 ->37 __H __I:False:::aaaaaaaaaaaaaattgaca:aaaaaaaaaaaaaaaaa
+S ->0 P2 TATA:False::::
+S ->0 S BASE:False::::
+S ->23 B14 TTGACA:False::::aaaaaaaaaaaaaaaaatataat
+S ->26 B16 BASE:False:::aaaaaaaaaaaaaattgaca:tataat
+S ->27 B15 BASE:False:::aaaaaaaaaaaaaattgaca:atataat
+S ->28 B14 BASE:False:::aaaaaaaaaaaaaattgaca:aatataat
+S ->29 B13 BASE:False::::ttgacaaaaaaaaaaaaaaaaaatataat
+S ->30 B12 BASE:False::::attgacaaaaaaaaaaaaaaaaaatataat
+S ->31 B11 BASE:False::::aattgacaaaaaaaaaaaaaaaaaatataat
+S ->32 B10 BASE:False::::aaattgacaaaaaaaaaaaaaaaaaatataat
+S ->33 B09 BASE:False::::aaaattgacaaaaaaaaaaaaaaaaaatataat
+S ->34 B08 BASE:False::::aaaaattgacaaaaaaaaaaaaaaaaaatataat
+S ->35 B07 BASE:False::::aaaaaattgacaaaaaaaaaaaaaaaaaatataat
+S ->36 B06 BASE:False::::aaaaaaattgacaaaaaaaaaaaaaaaaaatataat
+S ->37 B05 BASE:False::::aaaaaaaattgacaaaaaaaaaaaaaaaaaatataat
+S ->37 TATA5 BT:False:::aaaaaaaaaaaaaattgacaaaaaaaaaaaaaaaaaa:
+S ->37 TTGACA5 BA:False:::aaaaaaaaaaaaaa:aaaaaaaaaaaaaaaaatataat
+S ->38 B04 BASE:False::::aaaaaaaaattgacaaaaaaaaaaaaaaaaaatataat
+S ->38 TATA4 BA:False:::aaaaaaaaaaaaaattgacaaaaaaaaaaaaaaaaaa:t
+S ->38 TTGACA4 BC:False:::aaaaaaaaaaaaaa:aaaaaaaaaaaaaaaaaatataat
+S ->39 B03 BASE:False::::aaaaaaaaaattgacaaaaaaaaaaaaaaaaaatataat
+S ->39 TATA3 BA:False:::aaaaaaaaaaaaaattgacaaaaaaaaaaaaaaaaaa:at
+S ->39 TTGACA3 BA:False:::aaaaaaaaaaaaaa:caaaaaaaaaaaaaaaaaatataat
+S ->40 B02 BASE:False::::aaaaaaaaaaattgacaaaaaaaaaaaaaaaaaatataat
+S ->40 TATA2 BT:False:::aaaaaaaaaaaaaattgacaaaaaaaaaaaaaaaaaa:aat
+S ->40 TTGACA2 BG:False:::aaaaaaaaaaaaaa:acaaaaaaaaaaaaaaaaaatataat
+S ->41 BASE BASE:False::::aaaaaaaaaaaattgacaaaaaaaaaaaaaaaaaatataat
+S ->41 BT BA:False:::aaaaaaaaaaaaaattgacaaaaaaaaaaaaaaaaaa:taat
+S ->41 BT BT:False:::aaaaaaaaaaaaaa:gacaaaaaaaaaaaaaaaaaatataat
+S ->42 __H BA:False:::aaaaaaaaaaaaaattgac:aaaaaaaaaaaaaaaaatataat
+S ->42 __H BASE:False:::aaaaaaaaaaaa:attgacaaaaaaaaaaaaaaaaaatataat
+S ->42 __H BC:False:::aaaaaaaaaaaaaattga:aaaaaaaaaaaaaaaaaatataat
+S ->42 __H BG:False:::aaaaaaaaaaaaaatt:acaaaaaaaaaaaaaaaaaatataat
+S ->42 __H BT:False:::aaaaaaaaaaaaaat:gacaaaaaaaaaaaaaaaaaatataat
+S ->42 a:False:::aaaaaaaaaaaaaattgac:aaaaaaaaaaaaaaaaatataat
+S ->42 BA __H:False:::aaaaaaaaaaaaaattgac:aaaaaaaaaaaaaaaaatataat
+S ->42 BASE __H:False:::aaaaaaaaaaaa:attgacaaaaaaaaaaaaaaaaaatataat
+S ->42 BC __H:False:::aaaaaaaaaaaaaattga:aaaaaaaaaaaaaaaaaatataat
+S ->42 BG __H:False:::aaaaaaaaaaaaaatt:acaaaaaaaaaaaaaaaaaatataat
+S ->42 BT __H:False:::aaaaaaaaaaaaaat:gacaaaaaaaaaaaaaaaaaatataat
+S ->42 c:False:::aaaaaaaaaaaaaattga:aaaaaaaaaaaaaaaaaatataat
+S ->42 g:False:::aaaaaaaaaaaaaatt:acaaaaaaaaaaaaaaaaaatataat
+S ->42 t:False:::aaaaaaaaaaaaaat:gacaaaaaaaaaaaaaaaaaatataat
+S ->43 __H __I:False:::aaaaaaaaaaaaaattgaca:aaaaaaaaaaaaaaaaatataat
+S ->6 P1 B17:False::::tataat
+TATA ->0 TATA5 BT:False::::
+TATA ->1 TATA4 BA:False::::t
+TATA ->2 TATA3 BA:False::::at
+TATA ->3 TATA2 BT:False::::aat
+TATA ->4 BT BA:False::::taat
+TATA ->5 __H BA:False:::tata:t
+TATA ->5 __H BT:False::::ataat
+TATA ->5 a:False:::tata:t
+TATA ->5 BA __H:False:::tata:t
+TATA ->5 BT __H:False::::ataat
+TATA ->5 t:False::::ataat
+TATA ->6 __H __I:False:::tataa:t
+TATA ->6 c:False:a::tata:t
+TATA ->6 g:False:a::tata:t
+TATA2 ->0 BT BA:False::::
+TATA2 ->1 __H BA:False:::t:
+TATA2 ->1 __H BT:False::::a
+TATA2 ->1 a:False:::t:
+TATA2 ->1 BA __H:False:::t:
+TATA2 ->1 BT __H:False::::a
+TATA2 ->1 t:False::::a
+TATA2 ->2 __H __I:False:::ta:
+TATA2 ->2 c:False:a::t:
+TATA2 ->2 g:False:a::t:
+TATA3 ->0 TATA2 BT:False::::
+TATA3 ->1 BT BA:False::::t
+TATA3 ->2 __H BA:False:::t:t
+TATA3 ->2 __H BT:False::::at
+TATA3 ->2 a:False:::t:t
+TATA3 ->2 BA __H:False:::t:t
+TATA3 ->2 BT __H:False::::at
+TATA3 ->2 t:False::::at
+TATA3 ->3 __H __I:False:::ta:t
+TATA3 ->3 c:False:a::t:t
+TATA3 ->3 g:False:a::t:t
+TATA4 ->0 TATA3 BA:False::::
+TATA4 ->1 TATA2 BT:False::::a
+TATA4 ->2 BT BA:False::::ta
+TATA4 ->3 __H BA:False:::tat:
+TATA4 ->3 __H BT:False::::ata
+TATA4 ->3 a:False:::tat:
+TATA4 ->3 BA __H:False:::tat:
+TATA4 ->3 BT __H:False::::ata
+TATA4 ->3 t:False::::ata
+TATA4 ->4 __H __I:False:::tata:
+TATA4 ->4 c:False:a::tat:
+TATA4 ->4 g:False:a::tat:
+TATA5 ->0 TATA4 BA:False::::
+TATA5 ->1 TATA3 BA:False::::a
+TATA5 ->2 TATA2 BT:False::::aa
+TATA5 ->3 BT BA:False::::taa
+TATA5 ->4 __H BA:False:::tata:
+TATA5 ->4 __H BT:False::::ataa
+TATA5 ->4 a:False:::tata:
+TATA5 ->4 BA __H:False:::tata:
+TATA5 ->4 BT __H:False::::ataa
+TATA5 ->4 t:False::::ataa
+TATA5 ->5 __H __I:False:::tataa:
+TATA5 ->5 c:False:a::tata:
+TATA5 ->5 g:False:a::tata:
+TTGACA ->0 TTGACA5 BA:False::::
+TTGACA ->1 TTGACA4 BC:False::::a
+TTGACA ->2 TTGACA3 BA:False::::ca
+TTGACA ->3 TTGACA2 BG:False::::aca
+TTGACA ->4 BT BT:False::::gaca
+TTGACA ->5 __H BA:False:::ttgac:
+TTGACA ->5 __H BC:False:::ttga:a
+TTGACA ->5 __H BG:False:::tt:aca
+TTGACA ->5 __H BT:False:::t:gaca
+TTGACA ->5 a:False:::ttgac:
+TTGACA ->5 BA __H:False:::ttgac:
+TTGACA ->5 BC __H:False:::ttga:a
+TTGACA ->5 BG __H:False:::tt:aca
+TTGACA ->5 BT __H:False:::t:gaca
+TTGACA ->5 c:False:::ttga:a
+TTGACA ->5 g:False:::tt:aca
+TTGACA ->5 t:False:::t:gaca
+TTGACA ->6 __H __I:False:::ttgaca:
+TTGACA2 ->0 BT BT:False::::
+TTGACA2 ->1 __H BT:False:::t:
+TTGACA2 ->1 BT __H:False:::t:
+TTGACA2 ->1 t:False:::t:
+TTGACA2 ->2 __H __I:False:::tt:
+TTGACA2 ->2 a:False:t::t:
+TTGACA2 ->2 c:False:t::t:
+TTGACA2 ->2 g:False:t::t:
+TTGACA3 ->0 TTGACA2 BG:False::::
+TTGACA3 ->1 BT BT:False::::g
+TTGACA3 ->2 __H BG:False:::tt:
+TTGACA3 ->2 __H BT:False:::t:g
+TTGACA3 ->2 BG __H:False:::tt:
+TTGACA3 ->2 BT __H:False:::t:g
+TTGACA3 ->2 g:False:::tt:
+TTGACA3 ->2 t:False:::t:g
+TTGACA3 ->3 __H __I:False:::tt:g
+TTGACA3 ->3 a:False:t::t:g
+TTGACA3 ->3 c:False:t::t:g
+TTGACA4 ->0 TTGACA3 BA:False::::
+TTGACA4 ->1 TTGACA2 BG:False::::a
+TTGACA4 ->2 BT BT:False::::ga
+TTGACA4 ->3 __H BA:False:::ttg:
+TTGACA4 ->3 __H BG:False:::tt:a
+TTGACA4 ->3 __H BT:False:::t:ga
+TTGACA4 ->3 a:False:::ttg:
+TTGACA4 ->3 BA __H:False:::ttg:
+TTGACA4 ->3 BG __H:False:::tt:a
+TTGACA4 ->3 BT __H:False:::t:ga
+TTGACA4 ->3 g:False:::tt:a
+TTGACA4 ->3 t:False:::t:ga
+TTGACA4 ->4 __H __I:False:::ttga:
+TTGACA4 ->4 c:False:a::ttg:
+TTGACA5 ->0 TTGACA4 BC:False::::
+TTGACA5 ->1 TTGACA3 BA:False::::c
+TTGACA5 ->2 TTGACA2 BG:False::::ac
+TTGACA5 ->3 BT BT:False::::gac
+TTGACA5 ->4 __H BA:False:::ttg:c
+TTGACA5 ->4 __H BC:False:::ttga:
+TTGACA5 ->4 __H BG:False:::tt:ac
+TTGACA5 ->4 __H BT:False:::t:gac
+TTGACA5 ->4 a:False:::ttg:c
+TTGACA5 ->4 BA __H:False:::ttg:c
+TTGACA5 ->4 BC __H:False:::ttga:
+TTGACA5 ->4 BG __H:False:::tt:ac
+TTGACA5 ->4 BT __H:False:::t:gac
+TTGACA5 ->4 c:False:::ttga:
+TTGACA5 ->4 g:False:::tt:ac
+TTGACA5 ->4 t:False:::t:gac
+TTGACA5 ->5 __H __I:False:::ttgac:

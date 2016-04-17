@@ -192,7 +192,7 @@ def convert_units(grammar, nt_units, sym_top, prod_current):
         for production in list(grammar.productions[prod_current.rhs].values()):
             grammar.try_add(
                 Production(
-                    '{} ->{} {}'.format(
+                    '{0} ->{1} {2}'.format(
                         sym_top,
                         prod_current.errors + production.errors,
                         production.rhs)
