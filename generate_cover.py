@@ -125,7 +125,7 @@ def convert_nullable(grammar):
 
 def add_nullable(grammar, symbol):
     if symbol in grammar.productions:
-        for production in grammar.productions[symbol].values():
+        for production in list(grammar.productions[symbol].values()):
             if production.exclude_nullable:
                 continue
             production.exclude_nullable = True

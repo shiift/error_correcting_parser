@@ -1,35 +1,35 @@
 A ->0 a:False::::
-A ->1 __H __I:False:::a:
-A ->1 b:False:a:::
 A ->0 A __H:False::::
 A ->0 __H A:False::::
-__H ->0 __H __I:False::::
-__H ->1 b:True::::
-__H ->1 a:True::::
-__I ->1 b:True::::
-__I ->1 a:True::::
 A1 ->0 S B:False::::
-A1 ->3 __H __I:False:::bba:
-A1 ->2 A __H:False:::bb:
-A1 ->2 __H B:False:::ab:
-A1 ->1 A B:False:::b:
-A1 ->1 A A1:False:::b:
-A1 ->2 a:False:::bb:
-A1 ->2 B __H:False:::ab:
-A1 ->2 b:False:::ab:
-A1 ->2 __H A:False:::bb:
-S ->1 S B:False:::a:
-S ->2 __H __I:False:::ba:
-S ->1 __H B:False:::a:
-S ->1 a:False:::b:
-S ->1 A __H:False:::b:
-S ->0 A B:False::::
-S ->0 A A1:False::::
-S ->1 __H A:False:::b:
-S ->1 B __H:False:::a:
-S ->1 b:False:::a:
-B ->0 B __H:False::::
-B ->1 __H __I:False:::b:
-B ->0 __H B:False::::
+A1 ->1 A A1:False::::b
+A1 ->1 A B:False::::b
+A1 ->2 a:False::::bb
+A1 ->2 A __H:False::::bb
+A1 ->2 b:False:::a:b
+A1 ->2 B __H:False:::a:b
+A1 ->2 __H A:False::::bb
+A1 ->2 __H B:False:::a:b
+A1 ->3 __H __I:False::::abb
+A ->1 b:False:a:::
+A ->1 __H __I:False::::a
 B ->0 b:False::::
+B ->0 B __H:False::::
+B ->0 __H B:False::::
 B ->1 a:False:b:::
+B ->1 __H __I:False:::b:
+__H ->0 __H __I:False::::
+__H ->1 a:True::::
+__H ->1 b:True::::
+__I ->1 a:True::::
+__I ->1 b:True::::
+S ->0 A A1:False::::
+S ->0 A B:False::::
+S ->1 a:False::::b
+S ->1 A __H:False::::b
+S ->1 b:False:::a:
+S ->1 B __H:False:::a:
+S ->1 __H A:False::::b
+S ->1 __H B:False:::a:
+S ->1 S B:False:::a:
+S ->2 __H __I:False::::ab
