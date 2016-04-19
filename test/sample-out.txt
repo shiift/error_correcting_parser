@@ -65,13 +65,13 @@ I : aaaaacgtcatcgcttgcattagaaaggtttctggccgaccttataaccattaatta
 I': aaaaacgtcatcgcttgacattagaaaggtttctggctataataaccattaatta
 E : 6
 I : tctgaaatgagctgttgacaattaatcatcgaactagttaactagtacgcaagttca
-I': tctgaaatgagctgttgacaattaatcatcgaactagataatagtacgcaagttca
+I': tctgaaatgagctgttgacaattaatcatcgaactagtataatagtacgcaagttca
 E : 2
 I : accggaagaaaaccgtgacattttaacacgtttgttacaaggtaaaggcgacgccgc
 I': accggaagaaaaccttgacattttaacacgtttgttatataataaaggcgacgccgc
 E : 5
 I : aaattaaaattttattgacttaggtcactaaatactttaaccaatataggcatagcg
-I': aaattaaaattttattgacattaggtcactaaatactataatcaatataggcatagcg
+I': aaattaaaattttattgacattaggtcactaaatacttataatcaatataggcatagcg
 E : 3
 I : catcctcgcaccagtcgacgacggtttacgctttacgtatagtggcgacaatttttt
 I': catcctcgcaccagttgacaacggtttacgctttacgtataatggcgacaatttttt
@@ -83,7 +83,7 @@ I : tccagtataatttgttggcataattaagtacgacgagtaaaattacatacctgcccg
 I': tccagtataatttgttgacataattaagtacgacgagtataattacatacctgcccg
 E : 2
 I : acagttatccactattcctgtggataaccatgtgtattagagttagaaaacacgagg
-I': acagttatccactattagcactgtggataaccatgtgtataatagttagaaaacacgagg
+I': acagttatccactattgacactgtggataaccatgtgtataatagttagaaaacacgagg
 E : 5
 I : tgtgcagtttatggttccaaaatcgccttttgctgtatatactcacagcataactgt
 I': tgtgcagtttatggttgacaaaatcgccttttgctgttataatcacagcataactgt
@@ -119,7 +119,7 @@ I : gatcgcacgatctgtatacttatttgagtaaattaacccacgatcccagccattctt
 I': gatcgcacgatctgttgacatatttgagtaaattaactataatcccagccattctt
 E : 7
 I : aacgcatacggtattttaccttcccagtcaagaaaacttatcttattcccacttttc
-I': aacgcatacggtatttgacattcccagtcaagaaaacataatcttattcccacttttc
+I': aacgcatacggtatttgacattcccagtcaagaaaactataatcttattcccacttttc
 E : 4
 I : ttagcggatcctacctgacgctttttatcgcaactctctactgtttctccatacccg
 I': ttagcggatcctacttgacagctttttatcgcaactctataatgtttctccatacccg
@@ -131,7 +131,7 @@ I : cagaaacgttttattcgaacatcgatctcgtcttgtgttagaattctaacatacggt
 I': cagaaacgttttatttgacatcgatctcgtcttgtgttataattctaacatacggt
 E : 3
 I : cactaatttattccatgtcacacttttcgcatctttgttatgctatggttatttcat
-I': cactaatttattccttgacacacttttcgcatctttgataatgctatggttatttcat
+I': cactaatttattccttgacacacttttcgcatctttgtataatgctatggttatttcat
 E : 4
 I : atataaaaaagttcttgctttctaacgtgaaagtggtttaggttaaaagacatcagt
 I': atataaaaaagttcttgacattctaacgtgaaagtggtataattaaaagacatcagt
