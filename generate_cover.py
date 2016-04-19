@@ -1,19 +1,16 @@
 import argparse
 import copy
 
-import classes
-from classes import Production
+from classes import Production, Grammar as BaseGrammar
 
 
-class Grammar(classes.Grammar):
+class Grammar(BaseGrammar):
     """Grammar conatins a list of productions, a list of terminals, a list of
     non-terminals, and the top level symbol character ('S' by default)
     """
     def __init__(self):
-        classes.Grammar.__init__(self)
+        BaseGrammar.__init__(self)
         self.chars = {}
-        # Unlike terminals and nonterminals, nullables are not always
-        # in productions.
         self.nullable = {}
         self.nonterminal_units = {}
         self.nonterminal_nonunits = {}
@@ -50,8 +47,6 @@ class Grammar(classes.Grammar):
                 self.nullable.pop(production.lhs)
 
     def try_add(self, new_production):
-        if isinstance(new_production, str):
-            new_production = Production(new_production)
         lhs, rhs, errors = new_production.to_tuple()
         if lhs in self.productions:
             if rhs in self.productions[lhs]:
@@ -77,30 +72,24 @@ def construct_covering(grammar):
     grammar_p.add_production(
         '{0} -> {1}'.format(Production.H_SYM, Production.I_SYM))
     for char in grammar.chars:
-        grammar_p.add_production(
-            Production(
-                '{0} ->1 {1}'.format(Production.I_SYM, char)
-            ).set_inserted()
-        )
-    for lhs, terminals_lhs in grammar.terminals.items():
-        for rhs in terminals_lhs:
-            grammar_p.try_add(
-                '{0} -> {1} {2}'.format(lhs, lhs, Production.H_SYM)
-            )
-            grammar_p.try_add(
-                '{0} -> {1} {2}'.format(lhs, Production.H_SYM, lhs)
-            )
-            grammar_p.try_add(
-                Production(
-                    '{0} ->{1} {2}'.format(lhs, 1, Production.EPSILON)
-                ).set_deleted(rhs)
-            )
-            for char in [x for x in grammar.chars if x is not rhs]:
-                grammar_p.try_add(
-                    Production(
-                        '{0} ->{1} {2}'.format(lhs, 1, char)
-                    ).set_replaced(rhs)
-                )
+        grammar_p.add_production(Production(
+            '{0} ->1 {1}'.format(Production.I_SYM, char)
+        ).set_inserted())
+    for lhs, rhs, _ in grammar.get_all(grammar.terminals):
+        grammar_p.try_add(Production(
+            '{0} -> {1} {2}'.format(lhs, lhs, Production.H_SYM)
+        ))
+        grammar_p.try_add(Production(
+            '{0} -> {1} {2}'.format(lhs, Production.H_SYM, lhs)
+        ))
+        grammar_p.try_add(Production(
+            '{0} ->{1} {2}'.format(lhs, 1, Production.EPSILON)
+        ).set_deleted(rhs))
+        for char in grammar.chars:
+            if char is not rhs:
+                grammar_p.try_add(Production(
+                    '{0} ->{1} {2}'.format(lhs, 1, char)
+                ).set_replaced(rhs))
     return grammar_p
 
 
@@ -114,25 +103,24 @@ def eliminate_epsilon_productions(grammar):
 
 
 def convert_nullable(grammar):
-    for symbol, nonterminals in grammar.nonterminal_nonunits.items():
-        for nonterminal in nonterminals.values():
-            rhs_b, rhs_c = nonterminal.rhs.split()
-            if rhs_b in grammar.nullable:
-                grammar.try_add(Production(
-                    '{} ->{} {}'.format(
-                        symbol,
-                        nonterminal.errors +
-                        grammar.nullable[rhs_b].errors,
-                        rhs_c)
-                    ).set_prefix(grammar.nullable[rhs_b].deleted()))
-            if rhs_c in grammar.nullable:
-                grammar.try_add(Production(
-                    '{} ->{} {}'.format(
-                        symbol,
-                        nonterminal.errors +
-                        grammar.nullable[rhs_c].errors,
-                        rhs_b)
-                    ).set_suffix(grammar.nullable[rhs_c].deleted()))
+    for lhs, rhs, nonterminal in grammar.get_all(grammar.nonterminal_nonunits):
+        rhs_b, rhs_c = rhs.split()
+        if rhs_b in grammar.nullable:
+            grammar.try_add(Production(
+                '{} ->{} {}'.format(
+                    lhs,
+                    nonterminal.errors +
+                    grammar.nullable[rhs_b].errors,
+                    rhs_c)
+                ).set_prefix(grammar.nullable[rhs_b].deleted))
+        if rhs_c in grammar.nullable:
+            grammar.try_add(Production(
+                '{} ->{} {}'.format(
+                    lhs,
+                    nonterminal.errors +
+                    grammar.nullable[rhs_c].errors,
+                    rhs_b)
+                ).set_suffix(grammar.nullable[rhs_c].deleted))
 
 
 def add_nullable(grammar, symbol):
@@ -158,8 +146,8 @@ def add_nullable(grammar, symbol):
                             '{0} ->{1} {2}'.format(
                                 symbol, sum_null, Production.EPSILON)
                         ).set_deleted(
-                            grammar.nullable[rhs_b].deleted() +
-                            grammar.nullable[rhs_c].deleted()
+                            grammar.nullable[rhs_b].deleted +
+                            grammar.nullable[rhs_c].deleted
                         )):
                     return True
             else:
@@ -172,52 +160,50 @@ def add_nullable(grammar, symbol):
                         Production(
                             '{0} ->{1} {2}'.format(
                                 symbol, prod_rhs.errors, Production.EPSILON)
-                        ).set_deleted(prod_rhs.deleted())):
+                        ).set_deleted(prod_rhs.deleted)):
                     return True
     return False
 
 
 def eliminate_unit_productions(grammar):
     nt_units = copy.deepcopy(grammar.nonterminal_units)
-    for lhs in nt_units:
-        for prod in nt_units[lhs].values():
-            convert_units(grammar, nt_units, lhs, prod)
-    for lhs in list(grammar.nonterminal_units):
-        for production in list(grammar.nonterminal_units[lhs].values()):
-            grammar.remove_production(production)
+    for lhs, _, prod in grammar.get_all(nt_units):
+        convert_units(grammar, nt_units, lhs, prod)
+    for _, _, production in list(grammar.get_all(grammar.nonterminal_units)):
+        grammar.remove_production(production)
 
 
-def convert_units(grammar, nt_units, sym_top, prod_current):
-    if prod_current.rhs in grammar.productions:
-        for production in list(grammar.productions[prod_current.rhs].values()):
+def convert_units(grammar, nt_units, sym_top, current_prod):
+    if current_prod.rhs in grammar.productions:
+        for production in list(grammar.productions[current_prod.rhs].values()):
             grammar.try_add(
                 Production(
                     '{0} ->{1} {2}'.format(
                         sym_top,
-                        prod_current.errors + production.errors,
+                        current_prod.errors + production.errors,
                         production.rhs)
                 ).set_prefix(
-                    prod_current.prefix() + production.prefix()
+                    current_prod.prefix + production.prefix
                 ).set_suffix(
-                    production.suffix() + prod_current.suffix()
+                    production.suffix + current_prod.suffix
                 ).set_replaced(
-                    production.replaced()
+                    production.replaced
                 ).set_inserted(
-                    production.inserted()
+                    production.inserted
                 ))
-    if prod_current.rhs in nt_units:
-        for rhs, production in nt_units[prod_current.rhs].items():
+    if current_prod.rhs in nt_units:
+        for rhs, production in nt_units[current_prod.rhs].items():
             if not production.exclude_units:
                 production.exclude_units = True
                 new_prod = Production(
                     '{0} ->{1} {2}'.format(
-                        prod_current.rhs,
-                        prod_current.errors + production.errors,
+                        current_prod.rhs,
+                        current_prod.errors + production.errors,
                         rhs)
                     ).set_prefix(
-                        prod_current.prefix() + production.prefix()
+                        current_prod.prefix + production.prefix
                     ).set_suffix(
-                        production.suffix() + prod_current.suffix()
+                        production.suffix + current_prod.suffix
                     )
                 convert_units(grammar, nt_units, sym_top, new_prod)
                 production.exclude_units = False
@@ -225,8 +211,7 @@ def convert_units(grammar, nt_units, sym_top, prod_current):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('grammar_file',
-                        type=argparse.FileType('r'),
+    parser.add_argument('grammar_file', type=argparse.FileType('r'),
                         help="grammar file of rule to use")
     args = parser.parse_args()
 

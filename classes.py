@@ -1,9 +1,15 @@
 import re
 
 
+class BreakIt(Exception):
+    """Exception used as a nested break"""
+    pass
+
+
 class Production(object):
     """Production conatins a left hand side, right hand side and number of
-    errors for the production."""
+    errors for the production as well as tagging information for inserted,
+    deleted, replaced, prefix and suffix characters for errors productions."""
     REGEX = r'->([0-9]+)?'
     EPSILON = '__e'
     H_SYM = '__H'
@@ -12,11 +18,11 @@ class Production(object):
     def __init__(self, arg0, arg1=None, arg2=None):
         self.exclude_nullable = False
         self.exclude_units = False
-        self._insert = False
-        self._delete = ""
-        self._replace = ""
-        self._prefix = ""
-        self._suffix = ""
+        self.inserted = False
+        self.deleted = ""
+        self.replaced = ""
+        self.prefix = ""
+        self.suffix = ""
         if arg1 is None:
             self.__set_str(arg0)
         else:
@@ -50,49 +56,34 @@ class Production(object):
         return self
 
     def __set_correction_vars(self, pieces):
-        self._insert = True if pieces[0].strip() == 'True' else False
-        self._replace = pieces[1].strip()
-        self._delete = pieces[2].strip()
-        self._prefix = pieces[3].strip()
-        self._suffix = pieces[4].strip()
+        self.inserted = True if pieces[0].strip() == 'True' else False
+        self.replaced = pieces[1].strip()
+        self.deleted = pieces[2].strip()
+        self.prefix = pieces[3].strip()
+        self.suffix = pieces[4].strip()
 
     def to_tuple(self):
         return self.lhs, self.rhs, self.errors
 
     def set_deleted(self, value):
-        self._delete = value
+        self.deleted = value
         return self
 
     def set_replaced(self, value):
-        self._replace = value
+        self.replaced = value
         return self
 
     def set_inserted(self, value=True):
-        self._insert = value
+        self.inserted = value
         return self
 
-    def inserted(self):
-        return self._insert
-
-    def replaced(self):
-        return self._replace
-
-    def deleted(self):
-        return self._delete
-
     def set_prefix(self, prefix_values):
-        self._prefix = prefix_values
+        self.prefix = prefix_values
         return self
 
     def set_suffix(self, suffix_values):
-        self._suffix = suffix_values
+        self.suffix = suffix_values
         return self
-
-    def prefix(self):
-        return self._prefix
-
-    def suffix(self):
-        return self._suffix
 
     def is_T(self):
         return len(self.rhs.split()) == 1 and self.rhs.islower()
@@ -101,18 +92,13 @@ class Production(object):
         return not self.is_T()
 
     def is_Unit(self):
-        if self.is_T() or (self.is_NT() and len(self.rhs.split()) == 1):
-            return True
-        return False
-
-    # def __str__(self):
-    #     return "{0} ->{1} {2}".format(self.lhs, self.errors, self.rhs)
+        return len(self.rhs.split()) == 1
 
     def __repr__(self):
         return "{0} ->{1} {2}:{3}:{4}:{5}:{6}:{7}".format(
             self.lhs, self.errors, self.rhs,
-            self._insert, self._replace, self._delete,
-            self.prefix(), self.suffix())
+            self.inserted, self.replaced, self.deleted,
+            self.prefix, self.suffix)
 
 
 class Grammar(object):
@@ -134,6 +120,11 @@ class Grammar(object):
         else:
             self.__add_to(self.nonterminals, new_production)
         return new_production
+
+    def get_all(self, group):
+        for lhs, nts in group.items():
+            for rhs, nonterminal in nts.items():
+                yield lhs, rhs, nonterminal
 
     def __add_to(self, group, production):
         if production.lhs not in group:
@@ -163,15 +154,14 @@ class Lookup(object):
                 return
         tup_hash[j] = (i, j, errors)
 
-    def get_all(self, symbol, s_var, input_boundry):
-        newlist = []
+    def get_all(self, symbol, depth, input_size):
+        j_boundry = None
         for i, tup_hash in enumerate(self.data[symbol]):
-            if i + 1 + s_var <= input_boundry:
-                newlist.extend([
-                    x for j, x in tup_hash.items()
-                    if j < i + 1 + s_var
-                ])
-        return newlist
+            j_boundry = i + 1 + depth
+            if j_boundry <= input_size + 1:
+                for j, tup in list(tup_hash.items()):
+                    if j < j_boundry:
+                        yield tup
 
     def get(self, symbol, i):
         return self.data[symbol][i-1]
@@ -216,16 +206,16 @@ class Node(object):
         self.left = None
         self.right = None
 
-    def print_node(self, i, accumulator):
+    def print_tree(self, i, accumulator):
         str_list = []
         for _ in range(i):
             str_list.append(" ")
         str_list.append(str(self.production) + "\n")
         if self.left is not None:
-            str_list.append(self.left.print_node(i+1, accumulator))
+            str_list.append(self.left.print_tree(i+1, accumulator))
         if self.right is not None:
-            str_list.append(self.right.print_node(i+1, accumulator))
+            str_list.append(self.right.print_tree(i+1, accumulator))
         return "".join(str_list)
 
     def __repr__(self):
-        return self.print_node(0, "")
+        return self.print_tree(0, "")
