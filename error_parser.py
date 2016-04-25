@@ -10,13 +10,13 @@ def error_correcting_parser(grammar, input_string):  # pylint: disable=R0914
     """
     input_size = len(input_string)
     list_x = Lookup(grammar.productions, input_size)
-    cky_matrix = Matrix(input_size)
+    cyk_matrix = Matrix(input_size)
     for i in range(1, input_size + 1):
         input_char = input_string[i-1:i]
         for A, productions in grammar.terminals.items():
             if input_char in productions:
                 errors = productions[input_char].errors
-                cky_matrix.insert(A, i, i+1, errors, productions[input_char])
+                cyk_matrix.insert(A, i, i+1, errors, productions[input_char])
                 list_x.insert(A, i, i+1, errors)
     for depth in range(2, input_size + 1):
         for lhs, rhs, production in grammar.get_all(grammar.nonterminals):
@@ -24,10 +24,10 @@ def error_correcting_parser(grammar, input_string):  # pylint: disable=R0914
             B, C = rhs.split()
             for i, k, l_1 in list_x.get_all(B, depth, input_size):
                 j_offset = i + depth
-                cky_cell = cky_matrix.get(k, j_offset)
-                if C in cky_cell:
-                    l_total = l_1 + cky_cell[C][1] + l_3
-                    cky_matrix.insert(lhs, i, j_offset, l_total, production)
+                cyk_cell = cyk_matrix.get(k, j_offset)
+                if C in cyk_cell:
+                    l_total = l_1 + cyk_cell[C][1] + l_3
+                    cyk_matrix.insert(lhs, i, j_offset, l_total, production)
                     list_x.insert(lhs, i, j_offset, l_total)
     least_err = None
     for (_, k, errors) in list_x.get(Grammar.TOP_SYMBOL, 1).values():
@@ -35,33 +35,33 @@ def error_correcting_parser(grammar, input_string):  # pylint: disable=R0914
             least_err = errors
     if least_err is None:
         raise LookupError('Correction not found. Incomplete input grammar.')
-    tree = parse_tree(cky_matrix, Grammar.TOP_SYMBOL, 1, input_size + 1,
+    tree = parse_tree(cyk_matrix, Grammar.TOP_SYMBOL, 1, input_size + 1,
                       least_err, grammar.nonterminals)
     return least_err, tree
 
 
-def parse_tree(cky_matrix, current_symbol, i, j, errors, nonterminals):
+def parse_tree(cyk_matrix, current_symbol, i, j, errors, nonterminals):
     """Takes a Matrix, a symbol, a start location, an end location, the best
     error distance for the string, and a list of nonterminals and returns a
     parse tree for the individual characters in the string. This can be used
     to find I'.
     """
     if i == j - 1:
-        tups = cky_matrix.get(i, j)
+        tups = cyk_matrix.get(i, j)
         if current_symbol in tups:
             tup = tups[current_symbol]
             if tup[1] == errors:
                 return Node(i, j, tup[2])
-        raise LookupError('Could not find {} in cky_matrix at {}'.format(
+        raise LookupError('Could not find {} in cyk_matrix at {}'.format(
             current_symbol, (i, j)))
     A, B, q_1, q_2, dab, k = [None] * 6
     try:
         for k in range(i+1, j):
             for rhs, dab in nonterminals[current_symbol].items():
                 A, B = rhs.split()
-                if A in cky_matrix.get(i, k) and B in cky_matrix.get(k, j):
-                    q_1 = cky_matrix.get(i, k)[A][1]
-                    q_2 = cky_matrix.get(k, j)[B][1]
+                if A in cyk_matrix.get(i, k) and B in cyk_matrix.get(k, j):
+                    q_1 = cyk_matrix.get(i, k)[A][1]
+                    q_2 = cyk_matrix.get(k, j)[B][1]
                     if dab.errors + q_1 + q_2 == errors:
                         raise BreakIt
         raise LookupError((
@@ -70,8 +70,8 @@ def parse_tree(cky_matrix, current_symbol, i, j, errors, nonterminals):
                 current_symbol, (i, j)))
     except BreakIt:
         pass
-    left = parse_tree(cky_matrix, A, i, k, q_1, nonterminals)
-    right = parse_tree(cky_matrix, B, k, j, q_2, nonterminals)
+    left = parse_tree(cyk_matrix, A, i, k, q_1, nonterminals)
+    right = parse_tree(cyk_matrix, B, k, j, q_2, nonterminals)
     root = Node(i, j, dab)
     root.left = left
     root.right = right
