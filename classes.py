@@ -16,6 +16,9 @@ class Production(object):
     I_SYM = '__I'
 
     def __init__(self, arg0, arg1=None, arg2=None):
+        """
+        Creates a new 'Production' object.
+        """
         self.exclude_nullable = False
         self.exclude_units = False
         self.inserted = False
@@ -140,6 +143,9 @@ class Grammar(object):
 
 
 class Lookup(object):
+    """Lookup List that contains the best productions for a given desired
+    transition. Although called a list, this structure is made up of
+    dicts."""
     def __init__(self, productions, size):
         self.data = {}
         for key in productions:
@@ -171,6 +177,9 @@ class Lookup(object):
 
 
 class Matrix(object):
+    """CYK Matrix object that contains the productions for each cell of
+    the CYK matrix. This structure is built while the parser is being
+    run"""
     def __init__(self, size):
         self.size = size
         self.data = [None] * size
@@ -199,6 +208,8 @@ class Matrix(object):
 
 
 class Node(object):
+    """Node/Tree object that contains the parsing information for the
+    CYK matrix and corresponding tree."""
     def __init__(self, i, j, production):
         self.i = i
         self.j = j

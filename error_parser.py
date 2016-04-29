@@ -79,6 +79,8 @@ def parse_tree(cyk_matrix, current_symbol, i, j, errors, nonterminals):
 
 
 def correct_string(node):
+    """Corrects the given tree by replacing all error productions with their
+    corresponding corrections"""
     production = node.production
     if production.is_T():
         if production.inserted:
